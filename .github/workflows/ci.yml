@@ -1,12 +1,23 @@
 name: CI
-on: [push]
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the master branch
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  release:
+    types: # This configuration does not affect the page_build event above
+      - created
 jobs:
   lhci:
     name: Lighthouse
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.scripts 10.x
+      - name: Use Node.js 10.x
         uses: actions/setup-node@v1
         with:
           node-version: 10.x
