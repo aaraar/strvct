@@ -1,0 +1,22 @@
+{
+  "name": "strvct",
+  "version": "1.0.0",
+  "description": "Creating a structured vocabulary interface",
+  "main": "dist/scripts/main.js",
+  "scripts": {
+    "test": "lhci autorun"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aaraar/strvct.git"
+  },
+  "author": "Bas de Greeuw",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aaraar/strvct/issues"
+  },
+  "homepage": "https://github.com/aaraar/strvct#readme",
+  "dependencies": {
+    "@lhci/cli": "^0.4.0"
+  }
+}
