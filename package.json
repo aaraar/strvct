@@ -19,13 +19,16 @@
   },
   "homepage": "https://github.com/aaraar/strvct#readme",
   "dependencies": {
-    "@lhci/cli": "^0.4.0"
+    "@lhci/cli": "^0.4.0",
+    "canvas-nest.js": "^2.0.4"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^12.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
     "rollup": "^2.10.9",
     "rollup-plugin-copy": "^3.3.0",
+    "rollup-plugin-dev": "^1.1.2",
+    "rollup-plugin-progress": "^1.1.2",
     "rollup-plugin-scss": "^2.5.0"
   }
 }
