@@ -1,0 +1,15 @@
+/**
+ * COLORS
+ */
+$color-primary: #25167a;
+$color-secondary: #fff021;
+$gradient-primary: linear-gradient(
+                to bottom,
+                $color-primary,
+                lighten($color-primary, 20%),
+                lighten($color-primary, 40%),
+                lighten($color-primary, 50%),
+                lighten($color-primary, 55%),
+);
+
+$box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.25);
