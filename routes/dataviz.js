@@ -21,14 +21,18 @@ router.post('/upload', upload.single('dataset'), (req,res) => {
         filename:req.file.originalname
       }
     }
-  }
+  };
   request.post({
     url:'http://dev.verinote.net:4000/app/uploadvocabulary',
     formData
   },function(err,response,body){
-    console.log(err);
-    res.send('okay');
+    if (err) {
+      console.log(err);
+      res.render('error', {title: 'STRVCT', err});
+    } else {
+      res.render('index', {title: 'STRVCT'});
+    }
   });
-})
+});
 
 module.exports = router;

@@ -1,19 +1,13 @@
 extends layouts/main-layout
 
 block content
-  main
-    .background
-    header
-      h1
-        span STR
-        span V
-        span CT
-    .container
-      section.menu.active
-        h2 Welcome
-        p To start visualizing a structured vocabulary, please upload the .ttl file
-        form(action='/visualisation/upload' method='POST' enctype='multipart/form-data')
-          input(type='file' accept='.ttl' id='dataset' name='dataset')
-          button Upload
-
-
+    main
+        .background
+        header
+            h1
+                span STR
+                span V
+                span CT
+        .container
+            section.menu.active
+                textarea=JSON.stringify(data)
