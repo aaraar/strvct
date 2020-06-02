@@ -9,5 +9,8 @@ block content
                 span V
                 span CT
         .container
-            section.menu.active
-                textarea=JSON.stringify(data)
+            .tree
+            .sunburst
+        form.clear-store(action='data/clear' method='POST')
+            button Clear dataset
+    script(src='/scripts/tree.js' defer)

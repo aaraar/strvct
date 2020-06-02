@@ -3,11 +3,10 @@ import resolve from '@rollup/plugin-node-resolve'
 import scss from 'rollup-plugin-scss'
 
 export default {
-    input: 'src/js/main.js',
+    input: ['src/js/main.js', 'src/js/tree.js'],
     output: {
-        file: 'public/scripts/index.js',
-        format: 'iife',
-        name: 'bundle',
+        dir: 'public/scripts',
+        format: 'cjs',
     },
     plugins: [
         resolve ( {
@@ -18,6 +17,6 @@ export default {
         scss ( {
                 output: 'public/styles/styles.css'
             }
-        )
+        ),
     ]
 }

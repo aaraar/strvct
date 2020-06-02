@@ -10,6 +10,7 @@ const bodyParser = require('body-parser')
 dotenv.config();
 
 const indexRouter = require('./routes/index');
+const dataRouter = require('./routes/data');
 const datavizRouter = require('./routes/dataviz');
 
 // Express setup
@@ -34,10 +35,8 @@ app.use(sassMiddleware({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/data', dataRouter);
 app.use('/visualisation', datavizRouter);
-app.post('/test', (req, res) => {
-  console.log(req.body);
-})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

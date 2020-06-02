@@ -30,7 +30,7 @@ router.post('/upload', upload.single('dataset'), (req,res) => {
       console.log(err);
       res.render('error', {title: 'STRVCT', err});
     } else {
-      res.render('index', {title: 'STRVCT'});
+      res.redirect('/');
     }
   });
 });
