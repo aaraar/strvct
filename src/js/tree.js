@@ -1,7 +1,5 @@
 import * as d3 from "d3";
 
-const _output = document.querySelector('.output');
-
 init();
 
 function init() {
@@ -79,6 +77,8 @@ function drawD3Tree(param) {
 
 
     root = d3.hierarchy(data);
+    root._children = root.children;
+    root.children = null
     root.x0 = 0;
     root.y0 = 0;
     update(root);
@@ -132,7 +132,7 @@ function drawD3Tree(param) {
         nodeEnter.append("text")
             .attr("dy", 3.5)
             .attr("dx", 5.5)
-            .text((d) => d.data.name)
+            .text((d) => `${d.data.name} ${d.data.children ? `[${d.data.children.length}]` : d.data._children ? `[${d.data._children.length}]` : ''}`)
             .on("mouseover", function (d) {
                 d3.select(this).classed("selected", true);
             })
@@ -165,11 +165,11 @@ function drawD3Tree(param) {
             d.x0 = d.x;
             d.y0 = d.y;
         });
-    }
+    };
 
     // Toggle children on click.
     function click(d) {
-        sunburst(d.data)
+        output(d.data)
         if (d.children) {
             d._children = d.children;
             d.children = null;
@@ -182,91 +182,8 @@ function drawD3Tree(param) {
     }
 }
 
-function sunburst(data) {
-    const format = d3.format(",d");
-    const width = 932;
-    const radius = width / 6;
-
-    const arc = d3.arc()
-        .startAngle(d => d.x0)
-        .endAngle(d => d.x1)
-        .padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
-        .padRadius(radius * 1.5)
-        .innerRadius(d => d.y0 * radius)
-        .outerRadius(d => Math.max(d.y0 * radius, d.y1 * radius - 1));
-
-    const partition = data => {
-        const root = d3.hierarchy(data)
-            .sum(d => d.size)
-            .sort((a, b) => b.value - a.value);
-        return d3.partition()
-            .size([2 * Math.PI, root.height + 1])
-            (root);
-    }
-
-        console.log(data);
-        const root = partition(data);
-        const color = d3.scaleOrdinal().range(d3.quantize(d3.interpolateRainbow, data.children.length + 1));
-
-        root.each(d => d.current = d);
-        d3.selectAll('.sunburst > *').remove();
-        const svg = d3.select('.sunburst')
-            .style("width", "100%")
-            .style("height", "auto")
-            .style("font", "10px sans-serif");
-
-        const g = svg.append("g")
-            .attr("transform", `translate(${width / 2},${width / 2})`);
-
-        const path = g.append("g")
-            .selectAll("path")
-            .data(root.descendants().slice(1))
-            .join("path")
-            .attr("fill", d => {
-                while (d.depth > 1)
-                    d = d.parent;
-                return color(d.data.name);
-            })
-            .attr("fill-opacity", d => arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0)
-            .attr("d", d => arc(d.current));
-
-        path.filter(d => d.children)
-            .style("cursor", "pointer")
-
-        path.append("title")
-            .text(d => `${d.ancestors().map(d => d.data.name).reverse().join("/")}\n${format(d.value)}`);
-
-        const label = g.append("g")
-            .attr("pointer-events", "none")
-            .attr("text-anchor", "middle")
-            .style("user-select", "none")
-            .selectAll("text")
-            .data(root.descendants().slice(1))
-            .join("text")
-            .attr("dy", "0.35em")
-            .attr("fill-opacity", d => +labelVisible(d.current))
-            .attr("transform", d => labelTransform(d.current))
-            .text(d => d.data.name);
-
-        const parent = g.append("circle")
-            .datum(root)
-            .attr("r", radius)
-            .attr("fill", "none")
-            .attr("pointer-events", "all")
-
-        function arcVisible(d) {
-            return d.y1 <= 3 && d.y0 >= 1 && d.x1 > d.x0;
-        }
-
-        function labelVisible(d) {
-            return d.y1 <= 3 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
-        }
-
-        function labelTransform(d) {
-            const x = (d.x0 + d.x1) / 2 * 180 / Math.PI;
-            const y = (d.y0 + d.y1) / 2 * radius;
-            return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
-        }
+function output(data) {
+    console.log(data);
 }
 
 function cleanData(data) {
