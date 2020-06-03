@@ -52,6 +52,13 @@ function createTreeData(data) {
     return treeData;
 }
 
+function collapse(d) {
+    if (d.children) {
+        d._children = d.children;
+        d.children = null;
+    }
+}
+
 function drawD3Tree(param) {
     const data = param[0]
     let margin = {top: 10, right: 20, bottom: 30, left: 20},
@@ -75,10 +82,10 @@ function drawD3Tree(param) {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
     root = d3.hierarchy(data);
-    root._children = root.children;
-    root.children = null
+
+    root.children.forEach(collapse);
+
     root.x0 = 0;
     root.y0 = 0;
     update(root);
