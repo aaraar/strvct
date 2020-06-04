@@ -169,8 +169,21 @@ footer {
     padding: 1em;
     border-radius: 5px;
     overflow: scroll;
-    height: 70vh;
+    height: 80vh;
+    max-height: 935px;
 }
+
+.tree {
+  margin-top: 5em;
+}
+
+.sunburst {
+  overflow: hidden;
+  max-width: 950px;
+  max-height: none;
+  height: calc( 100vh - 3em );
+}
+
 
 .clear-store {
     max-width: 500px;
