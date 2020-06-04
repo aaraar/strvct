@@ -39,7 +39,6 @@
     transform: translateX(-90vw);
     opacity: 0;
     height: fit-content;
-    max-width: 720px;
 }
 
 .demo {
@@ -157,4 +156,27 @@ footer {
     padding: 1em;
     background-color: rgba(0,0,0,0.5);
     color: rgba(255,255,255,0.5);
+}
+
+.error {
+    background-color: wheat;
+}
+
+.tree, .sunburst {
+    background-color: white;
+    opacity: 0.8;
+    max-width: 500px;
+    padding: 1em;
+    border-radius: 5px;
+    overflow: scroll;
+    height: 70vh;
+}
+
+.clear-store {
+    max-width: 500px;
+    margin-top: 1em;
+}
+
+.node {
+    cursor: pointer;
 }
