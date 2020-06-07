@@ -9,12 +9,12 @@ export default {
         format: 'cjs',
     },
     plugins: [
-        resolve ( {
+        resolve({
             main: true,
             browser: true
-        } ),
-        commonjs (),
-        scss ( {
+        }),
+        commonjs(),
+        scss({
                 output: 'public/styles/styles.css'
             }
         ),

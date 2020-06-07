@@ -2,7 +2,7 @@ module.exports = {
     ci: {
         collect: {
             startServerCommand: 'npm start',
-            url:  ['http://localhost:3000/'],
+            url: ['http://localhost:3000/'],
             settings: {
                 // Don't run certain audits
                 "skipAudits": ["redirects-http"],
