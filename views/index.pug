@@ -12,4 +12,6 @@ block content
         .container
             .tree
             .sunburst
-    script(src='/scripts/tree.js' defer)
+        form.clear-store(action='data/clear' method='POST')
+            button Clear dataset
+    script(src='/tree.js' defer)
