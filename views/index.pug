@@ -1,13 +1,14 @@
 extends layouts/main-layout
 
 block content
-    main
-        .background--index
+    main.index
         header
             h1
                 span STR
                 span V
                 span CT
+            form.clear-store(action='data/clear' method='POST')
+                button Clear dataset
         .container
             .tree
             .sunburst
