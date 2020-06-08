@@ -253,7 +253,7 @@ function sanitizeString(string) {
 
 function createSunburst(data) {
     const format = d3.format(",d");
-    const width = 932;
+    const width = 1000;
     const radius = width / 6;
 
     const arc = d3
@@ -283,13 +283,18 @@ function createSunburst(data) {
     const svg = d3
         .select(".sunburst")
         .append("svg")
+        .attr("viewBox", `0 0 1000 1000`)
         .style("width", "100%")
         .style("height", "100%")
         .style("font", "10px sans-serif");
 
+
     const g = svg
         .append("g")
-        .attr("transform", `translate(${width / 2},${width / 2})`);
+        .attr("transform", `translate(${width / 2},${width / 2})`)
+        .call(d3.zoom().on("zoom", function () {
+            svg.attr("transform", d3.event.transform) // Needs debugging
+         }));
 
     const path = g
         .append("g")

@@ -1,31 +1,52 @@
 .tree, .sunburst {
   background-color: white;
   opacity: 0.8;
-  max-width: 500px;
   padding: 1em;
+  max-width: 90%;
   border-radius: 5px;
   overflow: scroll;
-  height: 80vh;
-  max-height: 935px;
+  max-height: 100%;
 }
 
-.tree {
-  margin-top: 5em;
+.container{
+  display: grid;
+  grid-template-columns: (1fr 3fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 5px;
+  grid-row-gap: 5px;
+  padding: 1em;
+  height: 80vh;
 }
 
 .sunburst {
-  overflow: hidden;
-  max-width: 950px;
+  overflow: scroll;
   max-height: none;
-  height: calc( 100vh - 3em );
 }
 
 
 .clear-store {
-  max-width: 500px;
-  margin-top: 1em;
+  display: grid;
+  grid-template-columns: (1fr 3fr);
+}
+
+.clear-store button{
+  margin: auto;
+  color: white;
+  background-color: #c13434;
+  border-radius: 5px;
+  width: 50%;
+  padding: 0.4em;
+  transition: 0.5s;
+}
+
+.clear-store button:hover{
+  background-color: white;
+  color: #c13434;
+  border: solid #c13434 2px;
 }
 
 .node {
   cursor: pointer;
 }
+
+
