@@ -1,53 +1,56 @@
-.tree, .sunburst {
-  background-color: white;
-  opacity: 0.8;
-  padding: 1em;
-  max-width: 90%;
-  border-radius: 5px;
-  overflow: scroll;
-  max-height: 100%;
-}
+main.index{
+  background: none;
+  display: block;
+  header {
+    padding: 0;
+    height: 10vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgba(0,0,0,0.5);
+  }
+
+  .tree {
+    max-width: 30vw;
+    background-color: #ccc;
+  }
+  .tree, .sunburst {
+    background-color: white;
+    opacity: 0.8;
+    overflow: scroll;
+    max-height: 100%;
+  }
 
 
-.container{
-  display: grid;
-  grid-template-columns: (1fr 3fr);
-  grid-template-rows: 1fr;
-  grid-column-gap: 5px;
-  grid-row-gap: 5px;
-  padding: 1em;
-  height: 80vh;
-}
+  .container{
+    display: flex;
+    height: 90vh;
+  }
 
-.sunburst {
-  overflow: scroll;
-  max-height: none;
-}
+  .sunburst {
+    overflow: scroll;
+    max-height: none;
+  }
 
+  form {
+    height: initial;
+    button {
+      color: #c13434;
+      background-color: rgba(0,0,0,0);
+      border: none;
+      transition: 0.5s;
+      max-height: 100px;
+    }
+  }
 
-.clear-store {
-  display: grid;
-  grid-template-columns: (1fr 3fr);
-}
+  .clear-store button:hover{
+    color: white;
+    border: none;
+  }
 
-.clear-store button{
-  margin: auto;
-  color: white;
-  background-color: #c13434;
-  border-radius: 5px;
-  width: 50%;
-  padding: 0.4em;
-  transition: 0.5s;
-}
-
-.clear-store button:hover{
-  background-color: white;
-  color: #c13434;
-  border: solid #c13434 2px;
-}
-
-.node {
-  cursor: pointer;
+  .node {
+    cursor: pointer;
+  }
 }
 
 
