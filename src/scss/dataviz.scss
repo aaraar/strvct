@@ -1,0 +1,56 @@
+main.index{
+  background: none;
+  display: block;
+  header {
+    padding: 0;
+    height: 10vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgba(0,0,0,0.5);
+  }
+
+  .tree {
+    max-width: 30vw;
+    background-color: #ccc;
+  }
+  .tree, .sunburst {
+    background-color: white;
+    opacity: 0.8;
+    overflow: scroll;
+    max-height: 100%;
+  }
+
+
+  .container{
+    display: flex;
+    height: 90vh;
+  }
+
+  .sunburst {
+    overflow: scroll;
+    max-height: none;
+  }
+
+  form {
+    height: initial;
+    button {
+      color: #c13434;
+      background-color: rgba(0,0,0,0);
+      border: none;
+      transition: 0.5s;
+      max-height: 100px;
+    }
+  }
+
+  .clear-store button:hover{
+    color: white;
+    border: none;
+  }
+
+  .node {
+    cursor: pointer;
+  }
+}
+
+

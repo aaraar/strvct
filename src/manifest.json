@@ -1,0 +1,10 @@
+{
+  "name": "Structured Vocabulary Creation Tool",
+  "short_name": "STRVCT",
+  "theme_color": "#25167a",
+  "background_color": "#25167a",
+  "display": "browser",
+  "orientation": "landscape",
+  "scope": "/",
+  "start_url": "/"
+}
