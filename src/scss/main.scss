@@ -82,16 +82,17 @@ body {
 }
 
 header {
-    position: fixed;
     left: 0.5em;
     top: 0.5em;
     font-size: 1.75em;
     letter-spacing: -0.125em;
     display: flex;
-    justify-content: center;
     color: #ffffffcc;
     font-weight: bold;
     user-select: none;
+    padding-top: 0.5em;
+    padding-left: 0.5em;
+
     span {
         display: inline-block;
         transform-origin: center center;
@@ -161,4 +162,5 @@ footer {
 .error {
     background-color: wheat;
 }
+
 
