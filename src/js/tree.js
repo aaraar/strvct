@@ -260,7 +260,7 @@ var svg = d3.select(".visualisation")
         .attr("class", "packedcircle")
         .attr("width", "100%")
         .attr("height", "100%"),
-        width = 900,
+        width = 800,
     margin = 20,
     diameter = +width,
     g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
@@ -301,11 +301,10 @@ var pack = d3.pack()
 
   svg
       .on("click", function() { zoom(root); });
-
   zoomTo([root.x, root.y, root.r * 2 + margin]);
 
   function zoom(d) {
-    var focus = focus; focus = d;
+    var focus = d;
 
     var transition = d3.transition()
         .duration(d3.event.altKey ? 7500 : 750)
