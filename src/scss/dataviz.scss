@@ -10,26 +10,22 @@ main.index{
     background-color: rgba(0,0,0,0.5);
   }
 
-  .tree {
-    max-width: 30vw;
-    background-color: #ccc;
-  }
-  .tree, .sunburst {
+  .tree, .visualisation {
     background-color: white;
     opacity: 0.8;
-    overflow: scroll;
     max-height: 100%;
   }
-
 
   .container{
     display: flex;
     height: 90vh;
   }
 
-  .sunburst {
+  .tree {
     overflow: scroll;
     max-height: none;
+    max-width: 30vw;
+    background-color: #ccc;
   }
 
   form {
@@ -51,6 +47,23 @@ main.index{
   .node {
     cursor: pointer;
   }
+
+  .packedcircle .node:hover {
+  		stroke: #000;
+  		stroke-width: 1.5px;
+  }
+
+  .packedcircle .node {
+  		fill: white;
+  }
+
+  .packedcircle .label {
+  		text-anchor: middle;
+  		text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+  }
+
+  .node--leaf {
+		fill: white;
+  }
+
 }
-
-

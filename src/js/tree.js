@@ -254,13 +254,15 @@ function sanitizeString(string) {
 
 
 function createPackedCircle(data) {
+
 var svg = d3.select(".visualisation")
         .append("svg")
         .attr("class", "packedcircle")
-        .attr("width", 960)
-        .attr("height", 960),
+        .attr("width", "100%")
+        .attr("height", "100%"),
+        width = 900,
     margin = 20,
-    diameter = +svg.attr("width"),
+    diameter = +width,
     g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
 var color = d3.scaleLinear()
@@ -284,7 +286,7 @@ var pack = d3.pack()
     .data(nodes)
     .enter().append("circle")
       .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
-      .style("fill", function(d) { return d.children ? color(d.depth) : null; })
+      .style("fill", function(d) { return d.children ? color(d.depth + 1) : null; })
       .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
 
   var text = g.selectAll("text")
@@ -298,13 +300,12 @@ var pack = d3.pack()
   var node = g.selectAll("circle,text");
 
   svg
-      .style("background", color(-1))
       .on("click", function() { zoom(root); });
 
   zoomTo([root.x, root.y, root.r * 2 + margin]);
 
   function zoom(d) {
-    var focus0 = focus; focus = d;
+    var focus = focus; focus = d;
 
     var transition = d3.transition()
         .duration(d3.event.altKey ? 7500 : 750)
