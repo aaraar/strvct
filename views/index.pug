@@ -14,4 +14,8 @@ block content
             .visualisation
         form.clear-store(action='data/clear' method='POST')
             button Clear dataset
+        form.graphButtons
+            input#sunburst(type='radio' name='graph' checked)
+            input#packedcircle(type='radio' name='graph')
+            input#forcegraph(type='radio' name='graph')
     script(src='/tree.js' defer)

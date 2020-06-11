@@ -9,6 +9,15 @@ function init() {
     const treeData = createTreeData(cleanJSON);
     drawD3Tree(treeData);
   });
+
+  if (document.getElementsByClassName("graphButtons")) {
+    document
+      .getElementsByClassName("graphButtons")[0]
+      .addEventListener("change", event => {
+        const data = document.body.getAttribute("data-attribute");
+        output(JSON.parse(data));
+      });
+  }
 }
 
 function getEntities() {
@@ -209,7 +218,23 @@ function output(data) {
     d3.select(".visualisation")
       .select("svg")
       .remove();
-    createForceGraph(data);
+
+    document.body.setAttribute("data-attribute", JSON.stringify(data));
+
+    const checkedBox = document.querySelectorAll("input[name=graph]:checked")[0]
+      .id;
+
+    switch (checkedBox) {
+      case "packedcircle":
+        createPackedCircle(data);
+        break;
+      case "forcegraph":
+        createForceGraph(data);
+        break;
+      case "sunburst":
+        createSunburst(data);
+        break;
+    }
   }
 }
 
@@ -539,7 +564,7 @@ function createForceGraph(data) {
     name: data.name,
     id: data.id,
     parent: data.parent,
-    group: 1
+    group: 0
   });
   flatten(data); // Not the best way to do this
   const arrowArray = getArrows(flatData);
@@ -566,7 +591,7 @@ function createForceGraph(data) {
           arrowArray.push({
             source: item.id,
             target: node.id,
-            group: 2
+            group: 1
           });
         }
       });
