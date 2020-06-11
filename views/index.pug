@@ -12,10 +12,16 @@ block content
         .container
             .tree
             .visualisation
+            form.graphButtons
+                label
+                  input#sunburst(type='radio' name='graph' checked)
+                  span Sunburst
+                label
+                  input#packedcircle(type='radio' name='graph')
+                  span Packed circle
+                label
+                  input#forcegraph(type='radio' name='graph')
+                  span Force graph
         form.clear-store(action='data/clear' method='POST')
             button Clear dataset
-        form.graphButtons
-            input#sunburst(type='radio' name='graph' checked)
-            input#packedcircle(type='radio' name='graph')
-            input#forcegraph(type='radio' name='graph')
     script(src='/tree.js' defer)

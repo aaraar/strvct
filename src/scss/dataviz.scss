@@ -1,4 +1,4 @@
-main.index{
+main.index {
   background: none;
   display: block;
   header {
@@ -7,22 +7,23 @@ main.index{
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
-  .tree, .visualisation {
+  .tree,
+  .visualisation {
     background-color: white;
     opacity: 0.8;
     max-height: 100%;
   }
 
-  .container{
+  .container {
     display: flex;
     height: 90vh;
   }
 
   .tree {
-    overflow: scroll;
+    overflow-y: scroll;
     max-height: none;
     max-width: 30vw;
     background-color: #ccc;
@@ -32,14 +33,14 @@ main.index{
     height: initial;
     button {
       color: #c13434;
-      background-color: rgba(0,0,0,0);
+      background-color: rgba(0, 0, 0, 0);
       border: none;
       transition: 0.5s;
       max-height: 100px;
     }
   }
 
-  .clear-store button:hover{
+  .clear-store button:hover {
     color: white;
     border: none;
   }
@@ -49,21 +50,21 @@ main.index{
   }
 
   .packedcircle .node:hover {
-  		stroke: #000;
-  		stroke-width: 1.5px;
+    stroke: #000;
+    stroke-width: 1.5px;
   }
 
   .packedcircle .node {
-  		fill: white;
+    fill: white;
   }
 
   .packedcircle .label {
-  		text-anchor: middle;
-  		text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+    text-anchor: middle;
+    text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
   }
 
   .node--leaf {
-		fill: white;
+    fill: white;
   }
 
   .label,
@@ -72,4 +73,18 @@ main.index{
     pointer-events: none;
   }
 
+  .graphButtons {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    flex-direction: row;
+  }
+
+  .graphButtons label {
+    margin: 0 0.5em;
+  }
+
+  .graphButtons input {
+    margin-right: 0.25em;
+  }
 }
