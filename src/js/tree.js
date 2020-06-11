@@ -14,7 +14,10 @@ function init() {
     document
       .getElementsByClassName("graphButtons")[0]
       .addEventListener("change", event => {
-        const data = document.body.getAttribute("data-attribute");
+        const visualisation = document.getElementsByClassName(
+          "visualisation"
+        )[0];
+        const data = visualisation.getAttribute("data-attribute");
         output(JSON.parse(data));
       });
   }
@@ -219,7 +222,8 @@ function output(data) {
       .select("svg")
       .remove();
 
-    document.body.setAttribute("data-attribute", JSON.stringify(data));
+    const visualisation = document.getElementsByClassName("visualisation")[0];
+    visualisation.setAttribute("data-attribute", JSON.stringify(data));
 
     const checkedBox = document.querySelectorAll("input[name=graph]:checked")[0]
       .id;
