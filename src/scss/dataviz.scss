@@ -80,11 +80,24 @@ main.index {
     flex-direction: row;
   }
 
-  .graphButtons label {
+  .graphButtons input + label {
+    border: 1px solid black;
+    padding: 0.25em;
+    background: transparent;
+    transition: background 0.25s;
     margin: 0 0.5em;
   }
 
+  .graphButtons input + label:hover {
+    background: #0078d7;
+  }
+
+  .graphButtons input:checked + label {
+    background-color: #f7630c;
+  }
+
   .graphButtons input {
-    margin-right: 0.25em;
+    display: none;
+    visibility: hidden;
   }
 }
