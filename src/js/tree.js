@@ -17,8 +17,10 @@ function init() {
         const visualisation = document.getElementsByClassName(
           "visualisation"
         )[0];
-        const data = visualisation.getAttribute("data-attribute");
-        output(JSON.parse(data));
+        if (visualisation.hasAttribute("data-attribute")) {
+          const data = visualisation.getAttribute("data-attribute");
+          output(JSON.parse(data));
+        }
       });
   }
 }
