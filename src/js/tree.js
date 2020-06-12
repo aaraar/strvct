@@ -48,11 +48,13 @@ function createTreeData(data) {
     return map;
   }, {});
 
-  const treeData = [];
+  const treeData = new Array();
   data.forEach(function(node) {
     // add to parent
     const parent = dataMap[node.parent];
     if (parent) {
+      node.size = node.children ? false : 12;
+      parent.size = false;
       // create child array if it doesn't exist
       (parent.children || (parent.children = []))
         // add node to child array
@@ -253,8 +255,7 @@ function cleanData(data) {
         ? sanitizeString(item.parentURI)
         : "Structured Vocabulary",
       note: item.note ? item.note : false,
-      keywords: item.keywords ? item.keywords : false,
-      size: 1
+      keywords: item.keywords ? item.keywords : false
     };
   });
 
@@ -263,8 +264,7 @@ function cleanData(data) {
     id: "Structured Vocabulary",
     parent: false,
     note: false,
-    keywords: false,
-    size: 1
+    keywords: false
   });
 
   return cleanedData;
@@ -412,6 +412,7 @@ function createPackedCircle(data) {
 }
 
 function createSunburst(data) {
+  console.log(data);
   const format = d3.format(",d");
   const width = 1000;
   const radius = width / 6;
