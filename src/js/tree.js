@@ -1,31 +1,19 @@
 import * as d3 from "d3";
 import "../scss/dataviz.scss";
+import {getEntities} from "./api";
 
 init();
 
 function init() {
-    getEntities().then(data => {
-        const cleanJSON = cleanData(data);
-        const treeData = createTreeData(cleanJSON);
-        drawD3Tree(treeData);
-    });
-}
-
-function getEntities() {
-    return new Promise((resolve, reject) => {
-        fetch("/data/getentities")
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    console.error(res.error());
-                    reject("Fetch failed");
-                }
-            })
-            .then(data => {
-                resolve(data);
-            });
-    });
+    getEntities()
+        .then(data => {
+            const cleanJSON = cleanData(data);
+            const treeData = createTreeData(cleanJSON);
+            drawD3Tree(treeData);
+        })
+        .catch(err => {
+            console.error(err);
+        })
 }
 
 function createTreeData(data) {
@@ -294,7 +282,7 @@ function createSunburst(data) {
         .attr("transform", `translate(${width / 2},${width / 2})`)
         .call(d3.zoom().on("zoom", function () {
             svg.attr("transform", d3.event.transform) // Needs debugging
-         }));
+        }));
 
     const path = g
         .append("g")
