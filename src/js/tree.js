@@ -287,10 +287,11 @@ function createPackedCircle(data) {
   var svg = d3
       .select(".visualisation")
       .append("svg")
+      .attr("viewBox", `0 0 1000 1000`)
       .attr("class", "packedcircle")
       .attr("width", "100%")
       .attr("height", "100%"),
-    width = 800,
+    width = 1000,
     margin = 20,
     diameter = +width,
     g = svg
@@ -605,11 +606,11 @@ function createForceGraph(data) {
     return arrowArray;
   }
 
-  createGraph(graph);
+  drawForceGraph(graph);
 
-  function createGraph(graph) {
-    var width = 800;
-    var height = 600;
+  function drawForceGraph(graph) {
+    var width = 1000;
+    var height = 1000;
     var color = d3.scaleOrdinal(d3.schemeCategory10);
 
     var label = {
@@ -669,9 +670,10 @@ function createForceGraph(data) {
     var svg = d3
       .select(".visualisation")
       .append("svg")
+      .attr("viewBox", `0 0 1000 1000`)
       .attr("class", "forcegraph")
-      .attr("width", width)
-      .attr("height", height);
+      .attr("width", "100%")
+      .attr("height", "100%");
     var container = svg.append("g");
 
     svg.call(
@@ -700,7 +702,7 @@ function createForceGraph(data) {
       .data(graph.nodes)
       .enter()
       .append("circle")
-      .attr("r", 5)
+      .attr("r", 8)
       .attr("fill", function(d) {
         return color(d.group);
       });
@@ -725,9 +727,9 @@ function createForceGraph(data) {
       .text(function(d, i) {
         return i % 2 == 0 ? "" : d.node.name;
       })
-      .style("fill", "#555")
+      .style("fill", "#333")
       .style("font-family", "Arial")
-      .style("font-size", 12)
+      .style("font-size", 16)
       .style("pointer-events", "none"); // to prevent mouseover/drag capture
 
     node.on("mouseover", focus).on("mouseout", unfocus);
