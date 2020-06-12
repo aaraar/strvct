@@ -412,7 +412,6 @@ function createPackedCircle(data) {
 }
 
 function createSunburst(data) {
-  console.log(data);
   const format = d3.format(",d");
   const width = 1000;
   const radius = width / 6;
