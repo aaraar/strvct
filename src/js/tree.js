@@ -445,8 +445,9 @@ function createSunburst(data) {
     .select(".visualisation")
     .append("svg")
     .attr("viewBox", `0 0 1000 1000`)
-    .style("width", "100%")
-    .style("height", "100%")
+    .style("width", "calc(100% - 20px)")
+    .style("height", "calc(100% - 20px)")
+    .style("padding", "10px")
     .style("font", "12px sans-serif");
 
   const g = svg
