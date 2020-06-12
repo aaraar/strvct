@@ -17,6 +17,10 @@ main.index {
     max-height: 100%;
   }
 
+  .visualisation {
+    overflow: hidden;
+  }
+
   .container {
     display: flex;
     height: 90vh;
