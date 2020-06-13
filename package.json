@@ -4,12 +4,13 @@
   "description": "Creating a structured vocabulary interface",
   "main": "src/js/main.js",
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c && yarn generate:icons",
     "build:watch": "rollup -cw",
     "start": "node app",
     "start:dev": "nodemon app",
     "dev": "concurrently \"rollup -cw\" \"nodemon app --ignore 'public/**.**' --ignore 'src/**.**'\"",
-    "test": "lhci autorun"
+    "test": "lhci autorun",
+    "generate:icons": "pwa-asset-generator ./src/images/logo-alt.svg ./public/icons --background \"#25167a\" --manifest \"./public/manifest.json\" --favicon --path-overide \"/icons/\""
   },
   "repository": {
     "type": "git",
@@ -39,7 +40,6 @@
     "node-sass": "^4.14.1",
     "node-sass-middleware": "0.11.0",
     "pug": "2.0.0-beta11",
-    "pwa-asset-generator": "^3.1.1",
     "request": "^2.88.2"
   },
   "devDependencies": {
@@ -52,6 +52,7 @@
     "autoprefixer": "^9.8.0",
     "cssnano": "^4.1.10",
     "nodemon": "^2.0.4",
+    "pwa-asset-generator": "^3.1.1",
     "rollup": "^2.10.9",
     "rollup-plugin-copy": "^3.3.0",
     "rollup-plugin-delete": "^1.2.0",

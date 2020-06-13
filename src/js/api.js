@@ -53,7 +53,7 @@ export function getEntities() {
     })
 }
 
-export function clearEntities() {
+function clearEntities() {
     return new Promise((resolve, reject) => {
         fetch("/data/clear", {
             method: "POST"
@@ -70,4 +70,19 @@ export function clearEntities() {
                 resolve(data);
             });
     })
+}
+
+export function clearDataset() {
+    triggerLoading();
+    clearEntities().then(() => {
+        window.location.href = "/";
+    })
+}
+
+function triggerLoading() {
+    const main = document.querySelector('main');
+    const loading = document.querySelector('.loading');
+    main.classList.toggle('blurred');
+    loading.classList.toggle('inactive');
+    loading.classList.toggle('active');
 }

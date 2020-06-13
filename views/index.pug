@@ -1,11 +1,6 @@
 extends layouts/main-layout
 
 block content
-    svg(class='inactive loading' style='margin:auto;', width='200px', height='200px', viewBox='0 0 100 100', preserveAspectRatio='xMidYMid')
-        circle(cx='50', cy='50', r='30', stroke='#fff021', stroke-width='7', fill='none')
-        circle(cx='50', cy='50', r='30', stroke='#25167a', stroke-width='8', stroke-linecap='round', fill='none', transform='rotate(274.965 50 50)')
-            animatetransform(attributeName='transform', type='rotate', repeatCount='indefinite', dur='1.7857142857142856s', values='0 50 50;180 50 50;720 50 50', keyTimes='0;0.5;1')
-            animate(attributeName='stroke-dasharray', repeatCount='indefinite', dur='1.7857142857142856s', values='0 188.49555921538757;122.52211349000193 65.97344572538564;0 188.49555921538757', keyTimes='0;0.5;1')
     main.index
         header
             h1
