@@ -1,14 +1,25 @@
 import * as d3 from "d3";
 import "../scss/dataviz.scss";
+import {getEntities, clearDataset} from "./api";
 
 init();
 
 function init() {
-  getEntities().then(data => {
-    const cleanJSON = cleanData(data);
-    const treeData = createTreeData(cleanJSON);
-    drawD3Tree(treeData);
-  });
+    toggleLoading();
+    getEntities()
+        .then(data => {
+            const cleanJSON = cleanData(data);
+            const treeData = createTreeData(cleanJSON);
+            drawD3Tree(treeData);
+            toggleLoading();
+        })
+        .catch(err => {
+            console.error(err);
+        })
+    document.querySelector('.clear-store').addEventListener('submit', (e) => {
+        clearDataset();
+        e.preventDefault();
+    })
 
   if (document.getElementsByClassName("graphButtons")) {
     document
@@ -23,23 +34,6 @@ function init() {
         }
       });
   }
-}
-
-function getEntities() {
-  return new Promise((resolve, reject) => {
-    fetch("/data/getentities")
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          console.error(res.error());
-          reject("Fetch failed");
-        }
-      })
-      .then(data => {
-        resolve(data);
-      });
-  });
 }
 
 function createTreeData(data) {
@@ -828,4 +822,13 @@ function createForceGraph(data) {
       d.fy = null;
     }
   }
+}
+
+
+function toggleLoading() {
+    const main = document.querySelector('main');
+    const loading = document.querySelector('.loading');
+    main.classList.toggle('blurred');
+    loading.classList.toggle('inactive');
+    loading.classList.toggle('active');
 }

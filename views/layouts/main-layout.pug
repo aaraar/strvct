@@ -3,11 +3,41 @@ html
   head
     title= title
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    link(rel="manifest" href="/manifest.json")
+    meta(name='apple-mobile-web-app-capable', content='yes')
     link(rel='stylesheet', href='/styles.css')
+    link(rel="manifest" href="/manifest.json")
+    link(rel='icon', type='image/jpeg', sizes='196x196', href='/icons/favicon-196.jpg')
+    link(rel='apple-touch-icon', sizes='180x180', href='/icons/apple-icon-180.jpg')
+    link(rel='apple-touch-icon', sizes='167x167', href='/icons/apple-icon-167.jpg')
+    link(rel='apple-touch-icon', sizes='152x152', href='/icons/apple-icon-152.jpg')
+    link(rel='apple-touch-icon', sizes='120x120', href='/icons/apple-icon-120.jpg')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-2048-2732.jpg', media='(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-2732-2048.jpg', media='(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-1668-2388.jpg', media='(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-2388-1668.jpg', media='(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-1668-2224.jpg', media='(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-2224-1668.jpg', media='(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-1536-2048.jpg', media='(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-2048-1536.jpg', media='(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-1242-2688.jpg', media='(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-2688-1242.jpg', media='(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-1125-2436.jpg', media='(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-2436-1125.jpg', media='(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-828-1792.jpg', media='(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-1792-828.jpg', media='(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-1242-2208.jpg', media='(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-2208-1242.jpg', media='(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-750-1334.jpg', media='(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-1334-750.jpg', media='(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-640-1136.jpg', media='(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)')
+    link(rel='apple-touch-startup-image', href='/icons/apple-splash-1136-640.jpg', media='(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)')
   body
+    svg(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class='inactive loading' style='margin:auto;', width='200px', height='200px', viewBox='0 0 100 100', preserveAspectRatio='xMidYMid')
+      circle(cx='50', cy='50', r='30', stroke='#fff021', stroke-width='7', fill='none')
+      circle(cx='50', cy='50', r='30', stroke='#25167a', stroke-width='8', stroke-linecap='round', fill='none', transform='rotate(274.965 50 50)')
+        animatetransform(attributeName='transform', type='rotate', repeatCount='indefinite', dur='1.7857142857142856s', values='0 50 50;180 50 50;720 50 50', keyTimes='0;0.5;1')
+        animate(attributeName='stroke-dasharray', repeatCount='indefinite', dur='1.7857142857142856s', values='0 188.49555921538757;122.52211349000193 65.97344572538564;0 188.49555921538757', keyTimes='0;0.5;1')
     block content
-  footer MIT | CMD | Amsterdam | Robert Hoekstra | Daniel van de Velde | Bas de Greeuw
   script
     |if ('serviceWorker' in navigator) {
     |  window.addEventListener('load', function() {
