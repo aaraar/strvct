@@ -11,5 +11,12 @@ block content
                 button Clear dataset
         .container
             .tree
-            .sunburst
+            .visualisation
+            form.graphButtons
+                input#sunburst(type='radio' name='graph' checked)
+                label(for='sunburst') Sunburst
+                input#packedcircle(type='radio' name='graph')
+                label(for='packedcircle') Packed circle
+                input#forcegraph(type='radio' name='graph')
+                label(for='forcegraph') Force graph
     script(src='/tree.js' defer)

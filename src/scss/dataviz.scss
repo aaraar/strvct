@@ -1,4 +1,4 @@
-main.index{
+main.index {
   background: none;
   display: block;
   header {
@@ -7,43 +7,44 @@ main.index{
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
-  .tree {
-    max-width: 30vw;
-    background-color: #ccc;
-  }
-  .tree, .sunburst {
+  .tree,
+  .visualisation {
     background-color: white;
     opacity: 0.8;
-    overflow: scroll;
     max-height: 100%;
   }
 
+  .visualisation {
+    overflow: hidden;
+  }
 
-  .container{
+  .container {
     display: flex;
     height: 90vh;
   }
 
-  .sunburst {
-    overflow: scroll;
+  .tree {
+    overflow-y: scroll;
     max-height: none;
+    max-width: 30vw;
+    background-color: #ccc;
   }
 
   form {
     height: initial;
     button {
       color: #c13434;
-      background-color: rgba(0,0,0,0);
+      background-color: rgba(0, 0, 0, 0);
       border: none;
       transition: 0.5s;
       max-height: 100px;
     }
   }
 
-  .clear-store button:hover{
+  .clear-store button:hover {
     color: white;
     border: none;
   }
@@ -51,6 +52,56 @@ main.index{
   .node {
     cursor: pointer;
   }
+
+  .packedcircle .node:hover {
+    stroke: #000;
+    stroke-width: 1.5px;
+  }
+
+  .packedcircle .node {
+    fill: white;
+  }
+
+  .packedcircle .label {
+    text-anchor: middle;
+    text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+  }
+
+  .node--leaf {
+    fill: white;
+  }
+
+  .label,
+  .node--root,
+  .node--leaf {
+    pointer-events: none;
+  }
+
+  .graphButtons {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    flex-direction: row;
+  }
+
+  .graphButtons input + label {
+    border: 1px solid black;
+    padding: 0.25em;
+    background: transparent;
+    transition: background 0.25s;
+    margin: 0 0.5em;
+  }
+
+  .graphButtons input + label:hover {
+    background: #0078d7;
+  }
+
+  .graphButtons input:checked + label {
+    background-color: #f7630c;
+  }
+
+  .graphButtons input {
+    display: none;
+    visibility: hidden;
+  }
 }
-
-
