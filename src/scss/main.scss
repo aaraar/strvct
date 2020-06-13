@@ -79,6 +79,7 @@ body {
     display: flex;
     flex-direction: column;
     font-family: sans-serif;
+    position: relative;
 }
 
 header {
@@ -163,4 +164,18 @@ footer {
     background-color: wheat;
 }
 
+.loading {
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
 
+.blurred {
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+}

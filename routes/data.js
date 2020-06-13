@@ -15,8 +15,8 @@ router.get('/getentities', function (req, res, next) {
 
 router.post('/clear', function (req, res, next) {
     request.post('http://dev.verinote.net:4000/app/clearstore', (err, response, body) => {
+        res.json(response)
     })
-    res.redirect('/');
 })
 
 router.post('/upload', upload.single('dataset'), (req, res) => {

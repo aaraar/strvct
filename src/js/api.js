@@ -52,3 +52,22 @@ export function getEntities() {
     });
     })
 }
+
+export function clearEntities() {
+    return new Promise((resolve, reject) => {
+        fetch("/data/clear", {
+            method: "POST"
+        })
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    console.error(res.error());
+                    reject(res.error());
+                }
+            })
+            .then(data => {
+                resolve(data);
+            });
+    })
+}

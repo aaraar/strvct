@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import "../scss/dataviz.scss";
-import {getEntities} from "./api";
+import {getEntities, clearEntities} from "./api";
 
 init();
 
@@ -14,6 +14,21 @@ function init() {
         .catch(err => {
             console.error(err);
         })
+    document.querySelector('.clear-store').addEventListener('submit', (e) => {
+        clearDataset();
+        e.preventDefault();
+    })
+}
+
+function clearDataset() {
+    const main = document.querySelector('main');
+    const loading = document.querySelector('.loading');
+    main.classList.toggle('blurred');
+    loading.classList.toggle('inactive');
+    loading.classList.toggle('active');
+    clearEntities().then(() => {
+        window.location.href = "/";
+    })
 }
 
 function createTreeData(data) {
