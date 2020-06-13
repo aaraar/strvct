@@ -73,13 +73,13 @@ function clearEntities() {
 }
 
 export function clearDataset() {
-    triggerLoading();
+    toggleLoading();
     clearEntities().then(() => {
         window.location.href = "/";
     })
 }
 
-function triggerLoading() {
+function toggleLoading() {
     const main = document.querySelector('main');
     const loading = document.querySelector('.loading');
     main.classList.toggle('blurred');

@@ -12,7 +12,7 @@ block content
       section.menu.active
         h2 Welcome
         p To start visualizing a structured vocabulary, please upload the .ttl file
-        form(action='/data/upload' method='POST' enctype='multipart/form-data')
+        form(class='upload' action='/data/upload' method='POST' enctype='multipart/form-data')
           input(type='file' accept='.ttl, .nt' id='dataset' name='dataset')
           button Upload
   script(src='/main.js' defer)

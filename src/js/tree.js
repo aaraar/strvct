@@ -5,11 +5,13 @@ import {getEntities, clearDataset} from "./api";
 init();
 
 function init() {
+    toggleLoading();
     getEntities()
         .then(data => {
             const cleanJSON = cleanData(data);
             const treeData = createTreeData(cleanJSON);
             drawD3Tree(treeData);
+            toggleLoading();
         })
         .catch(err => {
             console.error(err);
@@ -53,21 +55,21 @@ function collapse(d) {
 
 function drawD3Tree(param) {
     const data = param[0];
-    let margin = {top: 10, right: 20, bottom: 30, left: 20},
+    const margin = {top: 10, right: 20, bottom: 30, left: 20},
         width = 960,
         height = 1000,
         barHeight = 20;
 
     let i = 0,
-        duration = 200,
-        root;
+        duration = 200;
+    let root;
 
-    let nodeEnterTransition = d3
+    const nodeEnterTransition = d3
         .transition()
         .duration(750)
         .ease(d3.easeLinear);
 
-    let svg = d3
+    const svg = d3
         .select(".tree")
         .append("svg")
         .attr("width", width) // + margin.left + margin.right)
@@ -85,9 +87,9 @@ function drawD3Tree(param) {
 
     function update(source) {
         // Compute the flattened node list.
-        var nodes = root.descendants();
+        const nodes = root.descendants();
 
-        var height = Math.max(
+        const height = Math.max(
             500,
             nodes.length * barHeight + margin.top + margin.bottom
         );
@@ -97,16 +99,16 @@ function drawD3Tree(param) {
             .attr("height", height)
             .attr("background", "#ffffff");
 
-        var index = -1;
+        let index = -1;
         root.eachBefore(n => {
             n.x = ++index * barHeight;
             n.y = n.depth * 20;
         });
 
         // Update the nodes…
-        var node = svg.selectAll(".node").data(nodes, d => d.id || (d.id = ++i));
+        const node = svg.selectAll(".node").data(nodes, d => d.id || (d.id = ++i));
 
-        var nodeEnter = node
+        const nodeEnter = node
             .enter()
             .append("g")
             .attr("class", "node")
@@ -205,7 +207,7 @@ function output(data) {
 }
 
 function cleanData(data) {
-    let cleanedData = data.map(item => {
+    const cleanedData = data.map(item => {
         return {
             name: item.name ? item.name : false,
             id: item.uri ? sanitizeString(item.uri) : false,
@@ -396,4 +398,13 @@ function createSunburst(data) {
         const y = ((d.y0 + d.y1) / 2) * radius;
         return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
     }
+}
+
+
+function toggleLoading() {
+    const main = document.querySelector('main');
+    const loading = document.querySelector('.loading');
+    main.classList.toggle('blurred');
+    loading.classList.toggle('inactive');
+    loading.classList.toggle('active');
 }
