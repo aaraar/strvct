@@ -7,8 +7,34 @@ block content
                 span STR
                 span V
                 span CT
-            form.clear-store(action='data/clear' method='POST')
-                button Clear dataset
+                button Options
+                    section.options
+                        h3 Accessibility
+                        form.accessibility
+                            input#red-green(type='radio' name='colorblindness')
+                            label(for='red-green') Red - Green Blindness
+                            input#blue-yellow(type='radio' name='colorblindness')
+                            label(for='blue-yellow') Blue - Yellow Blindness
+                            input#total(type='radio' name='colorblindness')
+                            label(for='total') Total Color Blindness
+                            input#no-blind(type='radio' name='colorblindness' checked)
+                            label(for='no-blind') none
+                        h3 Graphs & Text
+                        form.options
+                            label(for="fontsize") Font=Size
+                            select#fontsize(name='fontsize')
+                                option(value="12") small
+                                option(value="16") normal
+                                option(value="20") big
+                            label(for="levels") # of sublevels
+                            select#levels(name='levels')
+                                option(value='1') One
+                                option(value='2') Two
+                                option(value='3') Three
+                        
+                        h3 Warning!
+                        form.clear-store(action='data/clear' method='POST')
+                            button Clear Data
         .container
             .tree--container
             .visualisation
