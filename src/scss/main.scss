@@ -26,7 +26,6 @@
     right: 0;
     top: 0;
     bottom: 0;
-    z-index: -2;
 }
 
 .menu {
@@ -74,7 +73,6 @@
 }
 
 body {
-    background: $gradient-primary;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -125,6 +123,13 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    &.nest-background {
+        background: $gradient-primary;
+        .container {
+            flex: 1 0;
+            align-items: center;
+        }
+    }
 }
 
 form {
@@ -170,6 +175,7 @@ footer {
     bottom: 0;
     left: 0;
     right: 0;
+    z-index: 5;
 }
 
 .blurred {
@@ -178,4 +184,8 @@ footer {
     -o-filter: blur(5px);
     -ms-filter: blur(5px);
     filter: blur(5px);
+}
+
+svg {
+    overflow: visible;
 }

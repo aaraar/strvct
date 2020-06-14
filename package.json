@@ -4,13 +4,13 @@
   "description": "Creating a structured vocabulary interface",
   "main": "src/js/main.js",
   "scripts": {
-    "build": "rollup -c && yarn generate:icons",
-    "build:watch": "rollup -cw",
+    "build": "rollup -c",
+    "build:watch": "rollup -c rollup.dev.config.js -w",
     "start": "node app",
-    "start:dev": "nodemon app",
-    "dev": "concurrently \"rollup -cw\" \"nodemon app --ignore 'public/**.**' --ignore 'src/**.**'\"",
+    "start:watch": "nodemon app --ignore 'public/**.**' --ignore 'src/**.**'",
+    "dev": "concurrently \"yarn build:watch\" \"yarn start:watch\"",
     "test": "lhci autorun",
-    "generate:icons": "pwa-asset-generator ./src/images/logo-alt.svg ./public/icons --background \"#25167a\" --manifest \"./public/manifest.json\" --favicon --path-overide \"/icons/\""
+    "generate:icons": "pwa-asset-generator ./src/images/logo-alt.svg ./src/images/icons --background \"#25167a\" --manifest \"./src/manifest.json\" --favicon --path-overide \"/icons/\""
   },
   "repository": {
     "type": "git",

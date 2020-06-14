@@ -1,9 +1,9 @@
 extends layouts/main-layout
 
 block content
-  main
+  main.nest-background
     .background
-    header
+    header.upload
       h1
         span STR
         span V
@@ -15,4 +15,5 @@ block content
         form(class='upload' action='/data/upload' method='POST' enctype='multipart/form-data')
           input(type='file' accept='.ttl, .nt' id='dataset' name='dataset')
           button Upload
+    footer ©MIT | CMD - HvA | Robert Hoekstra, Daniel van de Velde &amp; Bas de Greeuw
   script(src='/main.js' defer)
