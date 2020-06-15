@@ -1,44 +1,54 @@
 import * as d3 from "d3";
 import "../scss/dataviz.scss";
+import {getEntities, clearDataset} from "./api";
 
 init();
 
 function init() {
-    getEntities().then(data => {
-        const cleanJSON = cleanData(data);
-        const treeData = createTreeData(cleanJSON);
-        drawD3Tree(treeData);
-    });
-}
+    toggleLoading();
+    getEntities()
+        .then(data => {
+            const cleanJSON = cleanData(data);
+            const treeData = createTreeData(cleanJSON);
+            drawD3Tree(treeData);
+            toggleLoading();
+        })
+        .catch(err => {
+            console.error(err);
+        })
+    document.querySelector('.clear-store').addEventListener('submit', (e) => {
+        clearDataset();
+        e.preventDefault();
+    })
 
-function getEntities() {
-    return new Promise((resolve, reject) => {
-        fetch("/data/getentities")
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    console.error(res.error());
-                    reject("Fetch failed");
-                }
-            })
-            .then(data => {
-                resolve(data);
-            });
-    });
+  if (document.getElementsByClassName("graphButtons")) {
+    document
+      .getElementsByClassName("graphButtons")[0]
+      .addEventListener("change", event => {
+        const visualisation = document.getElementsByClassName(
+          "visualisation"
+        )[0];
+        if (visualisation.hasAttribute("data-attribute")) {
+          const data = visualisation.getAttribute("data-attribute");
+          output(JSON.parse(data));
+        }
+      });
+  }
 }
 
 function createTreeData(data) {
-    const dataMap = data.reduce(function (map, node) {
+    const dataMap = data.reduce(function(map, node) {
         map[node.id] = node;
         return map;
     }, {});
 
     const treeData = [];
-    data.forEach(function (node) {
+    data.forEach(function(node) {
         // add to parent
         const parent = dataMap[node.parent];
         if (parent) {
+            node.size = node.children ? false : 12;
+            parent.size = false;
             // create child array if it doesn't exist
             (parent.children || (parent.children = []))
                 // add node to child array
@@ -61,8 +71,8 @@ function collapse(d) {
 
 function drawD3Tree(param) {
     const data = param[0];
-    let margin = {top: 10, right: 20, bottom: 30, left: 20},
-        width = 960,
+    let margin = { top: 10, right: 20, bottom: 30, left: 20 },
+        width = 900,
         height = 1000,
         barHeight = 20;
 
@@ -76,8 +86,9 @@ function drawD3Tree(param) {
         .ease(d3.easeLinear);
 
     let svg = d3
-        .select(".tree")
+        .select(".tree--container")
         .append("svg")
+        .attr("class", "tree")
         .attr("width", width) // + margin.left + margin.right)
         .attr("height", height)
         .append("g")
@@ -93,28 +104,33 @@ function drawD3Tree(param) {
 
     function update(source) {
         // Compute the flattened node list.
-        var nodes = root.descendants();
+        const nodes = root.descendants();
 
-        var height = Math.max(
+        const height = Math.max(
             500,
             nodes.length * barHeight + margin.top + margin.bottom
         );
 
-        d3.select("svg")
+        const width = Math.max(
+            500,
+            nodes.width
+        )
+
+        d3.select(".tree")
             .transition()
             .attr("height", height)
             .attr("background", "#ffffff");
 
-        var index = -1;
+        let index = -1;
         root.eachBefore(n => {
             n.x = ++index * barHeight;
             n.y = n.depth * 20;
         });
 
         // Update the nodes…
-        var node = svg.selectAll(".node").data(nodes, d => d.id || (d.id = ++i));
+        const node = svg.selectAll(".node").data(nodes, d => d.id || (d.id = ++i));
 
-        var nodeEnter = node
+        const nodeEnter = node
             .enter()
             .append("g")
             .attr("class", "node")
@@ -153,10 +169,10 @@ function drawD3Tree(param) {
                             : ""
                     }`
             )
-            .on("mouseover", function (d) {
+            .on("mouseover", function(d) {
                 d3.select(this).classed("selected", true);
             })
-            .on("mouseout", function (d) {
+            .on("mouseout", function(d) {
                 d3.selectAll(".selected").classed("selected", false);
             });
 
@@ -205,10 +221,27 @@ function drawD3Tree(param) {
 
 function output(data) {
     if (data.children) {
-        d3.select(".sunburst")
+        d3.select(".visualisation")
             .select("svg")
             .remove();
-        createSunburst(data);
+
+        const visualisation = document.getElementsByClassName("visualisation")[0];
+        visualisation.setAttribute("data-attribute", JSON.stringify(data));
+
+        const checkedBox = document.querySelectorAll("input[name=graph]:checked")[0]
+            .id;
+
+        switch (checkedBox) {
+            case "packedcircle":
+                createPackedCircle(data);
+                break;
+            case "forcegraph":
+                createForceGraph(data);
+                break;
+            case "sunburst":
+                createSunburst(data);
+                break;
+        }
     }
 }
 
@@ -221,8 +254,7 @@ function cleanData(data) {
                 ? sanitizeString(item.parentURI)
                 : "Structured Vocabulary",
             note: item.note ? item.note : false,
-            keywords: item.keywords ? item.keywords : false,
-            size: 1
+            keywords: item.keywords ? item.keywords : false
         };
     });
 
@@ -231,8 +263,7 @@ function cleanData(data) {
         id: "Structured Vocabulary",
         parent: false,
         note: false,
-        keywords: false,
-        size: 1
+        keywords: false
     });
 
     return cleanedData;
@@ -249,6 +280,135 @@ function sanitizeString(string) {
         .join(" ");
 
     return string;
+}
+
+function createPackedCircle(data) {
+    const svg = d3
+            .select(".visualisation")
+            .append("svg")
+            .attr("viewBox", `0 0 1000 1000`)
+            .attr("class", "packedcircle")
+            .attr("width", "100%")
+            .attr("height", "100%"),
+        width = 1000,
+        margin = 20,
+        diameter = +width,
+        g = svg
+            .append("g")
+            .attr(
+                "transform",
+                "translate(" + diameter / 2 + "," + diameter / 2 + ")"
+            );
+
+    const color = d3
+        .scaleLinear()
+        .domain([-1, 5])
+        .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
+        .interpolate(d3.interpolateHcl);
+
+    const pack = d3
+        .pack()
+        .size([diameter - margin, diameter - margin])
+        .padding(2);
+
+    let root = d3
+        .hierarchy(data)
+        .sum(function(d) {
+            return d.size;
+        })
+        .sort(function(a, b) {
+            return b.value - a.value;
+        });
+
+    const focus = root,
+        nodes = pack(root).descendants();
+        let view
+
+    const circle = g
+        .selectAll("circle")
+        .data(nodes)
+        .enter()
+        .append("circle")
+        .attr("class", function(d) {
+            return d.parent
+                ? d.children
+                    ? "node"
+                    : "node node--leaf"
+                : "node node--root";
+        })
+        .style("fill", function(d) {
+            return d.children ? color(d.depth + 1) : null;
+        })
+        .on("click", function(d) {
+            if (focus !== d) zoom(d), d3.event.stopPropagation();
+        });
+
+    const text = g
+        .selectAll("text")
+        .data(nodes)
+        .enter()
+        .append("text")
+        .attr("class", "label")
+        .style("fill-opacity", function(d) {
+            return d.parent === root ? 1 : 0;
+        })
+        .style("display", function(d) {
+            return d.parent === root ? "inline" : "none";
+        })
+        .text(function(d) {
+            return d.data.name;
+        });
+
+    const node = g.selectAll("circle,text");
+
+    svg.on("click", function() {
+        zoom(root);
+    });
+    zoomTo([root.x, root.y, root.r * 2 + margin]);
+
+    function zoom(d) {
+        const focus = d;
+
+        const transition = d3
+            .transition()
+            .duration(d3.event.altKey ? 7500 : 750)
+            .tween("zoom", function(d) {
+                const i = d3.interpolateZoom(view, [
+                    focus.x,
+                    focus.y,
+                    focus.r * 2 + margin
+                ]);
+                return function(t) {
+                    zoomTo(i(t));
+                };
+            });
+
+        transition
+            .selectAll("text")
+            .filter(function(d) {
+                return d.parent === focus || this.style.display === "inline";
+            })
+            .style("fill-opacity", function(d) {
+                return d.parent === focus ? 1 : 0;
+            })
+            .on("start", function(d) {
+                if (d.parent === focus) this.style.display = "inline";
+            })
+            .on("end", function(d) {
+                if (d.parent !== focus) this.style.display = "none";
+            });
+    }
+
+    function zoomTo(v) {
+        const k = diameter / v[2];
+        view = v;
+        node.attr("transform", function(d) {
+            return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
+        });
+        circle.attr("r", function(d) {
+            return d.r * k;
+        });
+    }
 }
 
 function createSunburst(data) {
@@ -281,20 +441,22 @@ function createSunburst(data) {
     root.each(d => (d.current = d));
 
     const svg = d3
-        .select(".sunburst")
+        .select(".visualisation")
         .append("svg")
         .attr("viewBox", `0 0 1000 1000`)
-        .style("width", "100%")
-        .style("height", "100%")
-        .style("font", "10px sans-serif");
-
+        .style("width", "calc(100% - 20px)")
+        .style("height", "calc(100% - 20px)")
+        .style("padding", "10px")
+        .style("font", "12px sans-serif");
 
     const g = svg
         .append("g")
         .attr("transform", `translate(${width / 2},${width / 2})`)
-        .call(d3.zoom().on("zoom", function () {
-            svg.attr("transform", d3.event.transform) // Needs debugging
-         }));
+        .call(
+            d3.zoom().on("zoom", function() {
+                svg.attr("transform", d3.event.transform); // Needs debugging
+            })
+        );
 
     const path = g
         .append("g")
@@ -365,16 +527,13 @@ function createSunburst(data) {
         );
 
         const t = g.transition().duration(750);
-        // Transition the data on all arcs, even the ones that aren’t visible,
-        // so that if this transition is interrupted, entering arcs will start
-        // the next transition from the desired position.
         path
             .transition(t)
             .tween("data", d => {
                 const i = d3.interpolate(d.current, d.target);
                 return t => (d.current = i(t));
             })
-            .filter(function (d) {
+            .filter(function(d) {
                 return +this.getAttribute("fill-opacity") || arcVisible(d.target);
             })
             .attr("fill-opacity", d =>
@@ -383,7 +542,7 @@ function createSunburst(data) {
             .attrTween("d", d => () => arc(d.current));
 
         label
-            .filter(function (d) {
+            .filter(function(d) {
                 return +this.getAttribute("fill-opacity") || labelVisible(d.target);
             })
             .transition(t)
@@ -404,4 +563,289 @@ function createSunburst(data) {
         const y = ((d.y0 + d.y1) / 2) * radius;
         return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
     }
+}
+
+function createForceGraph(data) {
+    function flatten(node) {
+        return new Promise (((resolve, reject) => {
+            let flatArray = [];
+            flatArray.push({
+                name: data.name,
+                id: data.id,
+                parent: data.parent,
+                group: 0
+            });
+            recursiveFlatten(node)
+            function recursiveFlatten(node) {
+                node.children.map(item => {
+                    if (item.children) {
+                        recursiveFlatten(item);
+                        delete item["children"];
+                        flatArray.push(item);
+                    } else {
+                        flatArray.push(item);
+                        resolve(flatArray);
+                    }
+                });
+            }
+        }))
+    }
+
+    flatten(data).then(arr => {
+        cleanDataAndDraw(arr);
+    }); // Not the best way to do this
+
+    function cleanDataAndDraw(flatData) {
+        const arrowArray = getArrows(flatData);
+        const graph = {
+            nodes: flatData,
+            links: arrowArray
+        };
+
+        function getArrows(data) {
+            const arrowArray = [];
+            data.map(item => {
+                data.map(node => {
+                    if (item.parent === node.id) {
+                        arrowArray.push({
+                            source: item.id,
+                            target: node.id,
+                            group: 1
+                        });
+                    }
+                });
+            });
+            return arrowArray;
+        }
+
+        drawForceGraph(graph);
+
+        function drawForceGraph(graph) {
+            const width = 1000;
+            const height = 1000;
+            const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+            const label = {
+                nodes: [],
+                links: []
+            };
+
+            graph.nodes.forEach(function (d, i) {
+                label.nodes.push({node: d});
+                label.nodes.push({node: d});
+                label.links.push({
+                    source: i * 2,
+                    target: i * 2 + 1
+                });
+            });
+
+            const labelLayout = d3
+                .forceSimulation(label.nodes)
+                .force("charge", d3.forceManyBody().strength(-50))
+                .force(
+                    "link",
+                    d3
+                        .forceLink(label.links)
+                        .distance(0)
+                        .strength(2)
+                );
+
+            const graphLayout = d3
+                .forceSimulation(graph.nodes)
+                .force("charge", d3.forceManyBody().strength(-3000))
+                .force("center", d3.forceCenter(width / 2, height / 2))
+                .force("x", d3.forceX(width / 2).strength(1))
+                .force("y", d3.forceY(height / 2).strength(1))
+                .force(
+                    "link",
+                    d3
+                        .forceLink(graph.links)
+                        .id(function (d) {
+                            return d.id;
+                        })
+                        .distance(50)
+                        .strength(1)
+                )
+                .on("tick", ticked);
+
+            const adjlist = [];
+
+            graph.links.forEach(function (d) {
+                adjlist[d.source.index + "-" + d.target.index] = true;
+                adjlist[d.target.index + "-" + d.source.index] = true;
+            });
+
+            function neigh(a, b) {
+                return a === b || adjlist[a + "-" + b];
+            }
+
+            const svg = d3
+                .select(".visualisation")
+                .append("svg")
+                .attr("viewBox", `0 0 1000 1000`)
+                .attr("class", "forcegraph")
+                .attr("width", "100%")
+                .attr("height", "100%");
+            const container = svg.append("g");
+
+            svg.call(
+                d3
+                    .zoom()
+                    .scaleExtent([0.1, 4])
+                    .on("zoom", function () {
+                        container.attr("transform", d3.event.transform);
+                    })
+            );
+
+            const link = container
+                .append("g")
+                .attr("class", "links")
+                .selectAll("line")
+                .data(graph.links)
+                .enter()
+                .append("line")
+                .attr("stroke", "#aaa")
+                .attr("stroke-width", "1px");
+
+            const node = container
+                .append("g")
+                .attr("class", "nodes")
+                .selectAll("g")
+                .data(graph.nodes)
+                .enter()
+                .append("circle")
+                .attr("r", 8)
+                .attr("fill", function (d) {
+                    return color(d.group);
+                });
+
+            node.on("mouseover", focus).on("mouseout", unfocus);
+
+            node.call(
+                d3
+                    .drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended)
+            );
+
+            const labelNode = container
+                .append("g")
+                .attr("class", "labelNodes")
+                .selectAll("text")
+                .data(label.nodes)
+                .enter()
+                .append("text")
+                .text(function (d, i) {
+                    return i % 2 === 0 ? "" : d.node.name;
+                })
+                .style("fill", "#333")
+                .style("font-family", "Arial")
+                .style("font-size", 16)
+                .style("pointer-events", "none"); // to prevent mouseover/drag capture
+
+            node.on("mouseover", focus).on("mouseout", unfocus);
+
+            function ticked() {
+                node.call(updateNode);
+                link.call(updateLink);
+
+                labelLayout.alphaTarget(0.3).restart();
+                labelNode.each(function (d, i) {
+                    if (i % 2 === 0) {
+                        d.x = d.node.x;
+                        d.y = d.node.y;
+                    } else {
+                        const b = this.getBBox();
+
+                        const diffX = d.x - d.node.x;
+                        const diffY = d.y - d.node.y;
+
+                        const dist = Math.sqrt(diffX * diffX + diffY * diffY);
+
+                        let shiftX = (b.width * (diffX - dist)) / (dist * 2);
+                        shiftX = Math.max(-b.width, Math.min(0, shiftX));
+                        const shiftY = 16;
+                        this.setAttribute(
+                            "transform",
+                            "translate(" + shiftX + "," + shiftY + ")"
+                        );
+                    }
+                });
+                labelNode.call(updateNode);
+            }
+
+            function fixna(x) {
+                if (isFinite(x)) return x;
+                return 0;
+            }
+
+            function focus(d) {
+                const index = d3.select(d3.event.target).datum().index;
+                node.style("opacity", function (o) {
+                    return neigh(index, o.index) ? 1 : 0.1;
+                });
+                labelNode.attr("display", function (o) {
+                    return neigh(index, o.node.index) ? "block" : "none";
+                });
+                link.style("opacity", function (o) {
+                    return o.source.index === index || o.target.index === index ? 1 : 0.1;
+                });
+            }
+
+            function unfocus() {
+                labelNode.attr("display", "block");
+                node.style("opacity", 1);
+                link.style("opacity", 1);
+            }
+
+            function updateLink(link) {
+                link
+                    .attr("x1", function (d) {
+                        return fixna(d.source.x);
+                    })
+                    .attr("y1", function (d) {
+                        return fixna(d.source.y);
+                    })
+                    .attr("x2", function (d) {
+                        return fixna(d.target.x);
+                    })
+                    .attr("y2", function (d) {
+                        return fixna(d.target.y);
+                    });
+            }
+
+            function updateNode(node) {
+                node.attr("transform", function (d) {
+                    return "translate(" + fixna(d.x) + "," + fixna(d.y) + ")";
+                });
+            }
+
+            function dragstarted(d) {
+                d3.event.sourceEvent.stopPropagation();
+                if (!d3.event.active) graphLayout.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+
+            function dragged(d) {
+                d.fx = d3.event.x;
+                d.fy = d3.event.y;
+            }
+
+            function dragended(d) {
+                if (!d3.event.active) graphLayout.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }
+        }
+    }
+}
+
+function toggleLoading() {
+    const main = document.querySelector('main');
+    const loading = document.querySelector('.loading');
+    main.classList.toggle('blurred');
+    loading.classList.toggle('inactive');
+    loading.classList.toggle('active');
 }

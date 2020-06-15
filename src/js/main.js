@@ -12,6 +12,7 @@ function initNests(element) {
         color: '255,255,255',
         pointColor: '125, 125, 125',
         count: 120,
+        zIndex: 0
     };
     return new CanvasNest(element, config);
 }

@@ -5,11 +5,12 @@
   "main": "src/js/main.js",
   "scripts": {
     "build": "rollup -c",
-    "build:watch": "rollup -cw",
+    "build:watch": "rollup -c rollup.dev.config.js -w",
     "start": "node app",
-    "start:dev": "nodemon app",
-    "dev": "concurrently \"rollup -cw\" \"nodemon app --ignore 'public/**.**' --ignore 'src/**.**'\"",
-    "test": "lhci autorun"
+    "start:watch": "nodemon app --ignore 'public/**.**' --ignore 'src/**.**'",
+    "dev": "concurrently \"yarn build:watch\" \"yarn start:watch\"",
+    "test": "lhci autorun",
+    "generate:icons": "pwa-asset-generator ./src/images/logo-alt.svg ./src/images/icons --background \"#25167a\" --manifest \"./src/manifest.json\" --favicon --path-overide \"/icons/\""
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,8 @@
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
+    "moment-timezone": "^0.5.31",
+    "mongodb": "^3.5.9",
     "morgan": "~1.9.1",
     "multer": "^1.4.2",
     "node-sass": "^4.14.1",
@@ -49,6 +52,7 @@
     "autoprefixer": "^9.8.0",
     "cssnano": "^4.1.10",
     "nodemon": "^2.0.4",
+    "pwa-asset-generator": "^3.1.1",
     "rollup": "^2.10.9",
     "rollup-plugin-copy": "^3.3.0",
     "rollup-plugin-delete": "^1.2.0",

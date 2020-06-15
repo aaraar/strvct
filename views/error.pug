@@ -3,5 +3,9 @@ extends layouts/main-layout
 block content
   .error
     h1= message
-    h2= error.status
-    pre #{error.stack}
+    if error.status
+      h2= error.status
+    if error.stack
+      pre #{error.stack}
+    else
+      p=error
