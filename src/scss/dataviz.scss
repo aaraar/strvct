@@ -27,14 +27,14 @@ main.index {
   }
 
   .tree {
-    background-color: #ccc;
+    background-color: white;
     max-height: none;
     position: absolute;
     top: 0;
     left: 0;
     display: block;
     &--container {
-      background-color: #ccc;
+      background-color: white;
       position: relative;
       max-width: 30vw;
       overflow: scroll;
