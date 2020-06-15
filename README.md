@@ -6,9 +6,9 @@ Wallscope - Strvct
 1. Install packages `yarn`
 1. Add .env file with the following
     ```.env
-    MONGODB_USER=strvct-webdev-minor
-    MONGODB_PASSWORD=sosD1ADt4joAKBQB
-    MONGODB_SERVER=hva-calum.azure.mongodb.net
+    MONGODB_USER=
+    MONGODB_PASSWORD=
+    MONGODB_SERVER=
     ```
 1. Run `yarn dev`
 1. Go to localhost:3000
