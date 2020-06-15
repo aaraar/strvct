@@ -4,7 +4,7 @@ Wallscope - Strvct
 ## How to install
 1. Clone repo
 1. Install packages `yarn`
-1. Run `yarn build` for once build and `yarn dev` for watchers
+1. Run `yarn dev`
 1. Go to localhost:3000
 
 ## Git workflow
