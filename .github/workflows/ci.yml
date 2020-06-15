@@ -33,3 +33,6 @@ jobs:
           lhci autorun
         env:
           LHCI_TOKEN: ${{ secrets.LHCI_TOKEN }}
+          MONGODB_USER: ${{ secrets.MONGODB_USER }}
+          MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+          MONGODB_SERVER: ${{ secrets.MONGODB_SERVER }}
