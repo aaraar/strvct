@@ -101,11 +101,9 @@ main.index {
 
   .graphButtons {
     position: absolute;
-    right: 0.5em;
-    bottom: 0.5em;
+    right: 1em;
+    bottom: 1em;
     flex-direction: row;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    border-radius: 0.25em;
   }
 
   .graphButtons input + label {
@@ -116,11 +114,17 @@ main.index {
     text-align: center;
     padding: 0.5em 1em;
     cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.12);
   }
 
-  .graphButtons input + label:nth-of-type(2) {
-    border-left: 1px solid rgba(0, 0, 0, 0.12);
-    border-right: 1px solid rgba(0, 0, 0, 0.12);
+  .graphButtons input + label:first-of-type {
+    border-radius: 0.5em 0 0 0.5em;
+    border-right: none;
+  }
+
+  .graphButtons input + label:nth-of-type(3) {
+    border-radius: 0 0.5em 0.5em 0;
+    border-left: none;
   }
 
   .graphButtons input + label::before {
