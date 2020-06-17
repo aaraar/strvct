@@ -684,7 +684,7 @@ function createForceGraph(data) {
             .id(function(d) {
               return d.id;
             })
-            .distance(100)
+            .distance(150)
             .strength(1)
         )
         .on("tick", ticked);
