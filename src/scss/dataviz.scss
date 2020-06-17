@@ -3,12 +3,18 @@ main.index {
   background: none;
   display: block;
   header {
-    padding: 0;
-    height: 10vh;
+    padding: 0.5em 1em;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     background-color: $color-primary;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2),
+      0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
   }
 
   .tree,
@@ -23,22 +29,34 @@ main.index {
 
   .container {
     display: flex;
-    height: 90vh;
+    height: calc(100vh -3.55em);
+    position: absolute;
+    top: 3.55em;
   }
 
   .tree {
-    background-color: white;
     max-height: none;
     position: absolute;
     top: 0;
     left: 0;
     display: block;
+    background: rgba(0, 0, 0, 0.03);
+    padding: 0.5em;
     &--container {
       background-color: white;
       position: relative;
       max-width: 30vw;
       overflow: scroll;
+      margin: 1em;
     }
+  }
+
+  .tree .selected {
+    fill: $color-primary;
+  }
+
+  .forcegraph .nodes circle {
+    cursor: grab;
   }
 
   form {
@@ -49,12 +67,12 @@ main.index {
       border: none;
       transition: 0.5s;
       max-height: 100px;
+      font-size: 0.5em;
     }
   }
 
   .clear-store button:hover {
     color: white;
-    border: none;
   }
 
   .node {
@@ -87,25 +105,61 @@ main.index {
 
   .graphButtons {
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: 1em;
+    bottom: 1em;
     flex-direction: row;
   }
 
   .graphButtons input + label {
-    border: 1px solid black;
-    padding: 0.25em;
-    background: transparent;
-    transition: background 0.25s;
-    margin: 0 0.5em;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    background: white;
+    text-align: center;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+  .graphButtons input + label:first-of-type {
+    border-radius: 0.5em 0 0 0.5em;
+    border-right: none;
+  }
+
+  .graphButtons input + label:nth-of-type(3) {
+    border-radius: 0 0.5em 0.5em 0;
+    border-left: none;
+  }
+
+  .graphButtons input + label::before {
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.6);
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
   }
 
   .graphButtons input + label:hover {
-    background: #0078d7;
+    background: #f5f5f5;
+  }
+  .graphButtons input:checked + label:hover {
+    background: #d6d6d6;
   }
 
   .graphButtons input:checked + label {
-    background-color: #f7630c;
+    background-color: #e0e0e0;
+  }
+
+  .graphButtons input:checked + label::before {
+    transition: all 0.5s ease-out;
+    opacity: 0;
+    width: 10em;
+    height: 10em;
+    margin-top: -5em;
+    margin-left: -5em;
   }
 
   .graphButtons input {
