@@ -74,7 +74,7 @@ function drawD3Tree(param) {
   let margin = { top: 10, right: 20, bottom: 30, left: 20 },
     width = 900,
     height = 1000,
-    barHeight = 20;
+    barHeight = 30;
 
   let i = 0,
     duration = 200,
@@ -92,6 +92,7 @@ function drawD3Tree(param) {
     .attr("width", width) // + margin.left + margin.right)
     .attr("height", height)
     .append("g")
+    .attr("class", "treenodes")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   root = d3.hierarchy(data);
@@ -168,9 +169,18 @@ function drawD3Tree(param) {
       )
       .on("mouseover", function(d) {
         d3.select(this).classed("selected", true);
+        d3.select(".tree")
+          .insert("rect", ".treenodes")
+          .attr("class", "selectedBox")
+          .attr("width", "calc(100% + 1em)")
+          .attr("height", "2em")
+          .attr("x", "-0.5em")
+          .attr("y", d.x - 8)
+          .style("fill", "rgba(0, 0, 0, 0.04)");
       })
       .on("mouseout", function(d) {
         d3.selectAll(".selected").classed("selected", false);
+        d3.selectAll(".selectedBox").remove();
       });
 
     // Transition nodes to their new position.
