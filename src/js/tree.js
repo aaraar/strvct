@@ -133,7 +133,6 @@ function drawD3Tree(param) {
       .append("g")
       .attr("class", "node")
       .attr("transform", () => "translate(" + source.y0 + "," + source.x0 + ")")
-      .on("click", click)
       .on("mouseover", function(d) {
         d3.select(this.children[3]).classed("selected", true);
         d3.select(this.children[0]).style("fill", "rgba(0, 0, 0, 0.04)");
@@ -141,7 +140,9 @@ function drawD3Tree(param) {
       .on("mouseout", function(d) {
         d3.select(this.children[3]).classed("selected", false);
         d3.select(this.children[0]).style("fill", "transparent");
-      });
+        d3.selectAll(".edit").remove();
+      })
+      .on("click", click);
 
     nodeEnter
       .append("rect")
@@ -233,9 +234,9 @@ function drawD3Tree(param) {
     d3.select(".tree")
       .insert("rect", ".treenodes")
       .attr("class", "clickBox")
-      .attr("width", "calc(100% + 1em)")
+      .attr("width", "120%")
       .attr("height", "1.875em")
-      .attr("x", "-0.5em")
+      .attr("x", "-10%")
       .attr("y", d.x - 6)
       .style("fill", "rgba(0, 0, 0, 0.08)");
   }
