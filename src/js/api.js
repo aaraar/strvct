@@ -4,8 +4,6 @@ export function getEntities() {
             .then(data => data.json())
             .then(data => {
                 if (localStorage.getItem('lastMod') && localStorage.getItem('lastMod') === data.lastModified) {
-                    const locLastMod = localStorage.getItem('lastMod');
-                    if (data.lastModified === locLastMod) {
                         getRemoteEntities('old')
                             .then(entities => {
                                 resolve(entities)
@@ -23,7 +21,6 @@ export function getEntities() {
                                 reject(err);
                             })
                     }
-                }
 
                 function getRemoteEntities(suffix) {
                     return new Promise((resolve, reject) => {

@@ -7,11 +7,5 @@
         "useBuiltIns": "entry"
       }
     ]
-  ],
-  "plugins": [
-    ["@babel/plugin-transform-runtime", {
-      "helpers": false,
-      "regenerator": true
-    }]
   ]
 }

@@ -9,7 +9,7 @@ import manifestJson from "rollup-plugin-manifest-json";
 const { injectManifest } = require('rollup-plugin-workbox');
 
 export default {
-    input: ['src/js/main.js', 'src/js/tree.js', 'src/js/sw.js'],
+    input: ['src/js/main.js', 'src/js/tree.js'],
     output: {
         dir: 'public',
         format: 'cjs',
@@ -18,14 +18,13 @@ export default {
     treeshake: true,
     plugins: [
         del({targets: 'public/*'}),
-        babel({
-            babelHelpers: 'bundled'
-        }),
         resolve({
             main: true,
-            browser: true
+            browser: true,
+            preferBuiltins: true
         }),
         commonjs(),
+        babel({babelHelpers: 'bundled'}),
         postcss({
             preprocessor: (content, id) => new Promise((resolve, reject) => {
                 const result = sass.renderSync({ file: id })
@@ -44,8 +43,8 @@ export default {
             ]
         }),
         injectManifest({
-            swSrc: 'public/sw.js',
-            swDest: 'public/_sw.js',
+            swSrc: 'src/js/sw.js',
+            swDest: 'public/sw.js',
             globDirectory: 'public/',
         }, ({ swDest, count, size }) => {
             console.log(`${swDest} Generated`);

@@ -1,61 +1,50 @@
-import {precacheAndRoute} from 'workbox-precaching';
-// import {registerRoute} from 'workbox-routing';
-// import {CacheFirst, NetworkFirst, StaleWhileRevalidate} from 'workbox-strategies'
-// import {ExpirationPlugin} from 'workbox-expiration';
+importScripts("https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js");
 
-precacheAndRoute(self.__WB_MANIFEST);
-// registerRoute(
-//     ({request}) => request.destination === 'image',
-//     new CacheFirst({
-//         cacheName: 'images',
-//         plugins: [
-//             new ExpirationPlugin({
-//                 maxEntries: 60,
-//                 maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
-//             }),
-//         ],
-//     }),
-// );
-// registerRoute(
-//     ({request}) => new URL(request.url).pathname === '/data/getentities/old',
-//     () => {
-//         const strategy = new StaleWhileRevalidate({
-//             cacheName: 'entities',
-//             plugins: [
-//                 new ExpirationPlugin({
-//                     maxEntries: 60,
-//                     maxAgeSeconds: 7 * 24 * 60 * 60, // 7 Days
-//                 }),
-//             ],
-//             matchOptions: {
-//                 ignoreSearch: true,
-//                 ignoreMethod: true,
-//                 ignoreVary: true
-//             }
-//         })
-//         strategy.handle(fetch('/data/getentities'));
-//         return strategy;
-//     }
-// );
-// registerRoute(
-//     ({request}) => new URL(request.url).pathname === '/data/getentities/new',
-//     () => {
-//         const strategy = NetworkFirst({
-//             cacheName: 'entities',
-//             plugins: [
-//                 new ExpirationPlugin({
-//                     maxEntries: 60,
-//                     maxAgeSeconds: 7 * 24 * 60 * 60, // 7 Days
-//                 }),
-//             ],
-//             matchOptions: {
-//                 ignoreSearch: true,
-//                 ignoreMethod: true,
-//                 ignoreVary: true
-//             },
-//             networkTimeoutSeconds: 90
-//         })
-//         strategy.handle(fetch('/data/getentities'));
-//         return strategy
-//     }
-// );
+// the following line will be replaced by workbox-cli
+workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
+workbox.routing.registerRoute(
+    ({request}) => request.destination === 'image',
+    new workbox.strategies.CacheFirst({
+        cacheName: 'images',
+        plugins: [
+            new workbox.expiration.ExpirationPlugin({
+                maxEntries: 60,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+            }),
+        ],
+    }),
+);
+
+workbox.routing.registerRoute(
+    ({request}) => new URL(request.url).pathname === '/data/getentities/old',
+    async ({url, event}) => {
+            return caches.open('entities').then((cache) => {
+                event.request.url = event.request.url.replace('old', 'new');
+                console.log(event.request);
+                return cache.match('/data/getentities/new').then((response) => {
+                    return response || fetch(event.request).then(function (response) {
+                        cache.put('/data/getentities/new', response.clone());
+                        return response;
+                    })
+                })
+            })
+    })
+
+workbox.routing.registerRoute(
+    ({request}) => new URL(request.url).pathname === '/data/getentities/new',
+    new workbox.strategies.NetworkFirst({
+        cacheName: 'entities',
+        plugins: [
+            new workbox.expiration.ExpirationPlugin({
+                maxEntries: 60,
+                maxAgeSeconds: 7 * 24 * 60 * 60, // 7 Days
+            }),
+        ],
+        matchOptions: {
+            ignoreSearch: true,
+            ignoreMethod: true,
+            ignoreVary: true
+        },
+        networkTimeoutSeconds: 90
+    })
+)

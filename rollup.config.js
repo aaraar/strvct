@@ -11,7 +11,7 @@ import manifestJson from "rollup-plugin-manifest-json";
 const { injectManifest } = require('rollup-plugin-workbox');
 
 export default {
-    input: ['src/js/main.js', 'src/js/tree.js', "src/js/sw"],
+    input: ['src/js/main.js', 'src/js/tree.js'],
     output: {
         dir: 'public',
         format: 'cjs',
@@ -20,12 +20,12 @@ export default {
     treeshake: true,
     plugins: [
         del({targets: 'public/*'}),
-        babel({ babelHelpers: 'bundled' }),
         resolve({
             main: true,
             browser: true
         }),
         commonjs(),
+        babel({ babelHelpers: 'bundled' }),
         terser(),
         postcss({
             preprocessor: (content, id) => new Promise((resolve, reject) => {
