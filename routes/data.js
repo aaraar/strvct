@@ -70,4 +70,11 @@ router.get('/lastmod', (req, res) => {
     })
 })
 
+router.post('/addentity', (req, res) => {
+    request.post({
+        url: 'http://dev.verinote.net:4000/app/uploadvocabulary',
+        json: req.body
+    })
+})
+
 module.exports = router;

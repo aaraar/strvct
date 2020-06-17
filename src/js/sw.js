@@ -1,6 +1,4 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js");
-
-// the following line will be replaced by workbox-cli
 workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
 workbox.routing.registerRoute(
     ({request}) => request.destination === 'image',
@@ -20,7 +18,6 @@ workbox.routing.registerRoute(
     async ({url, event}) => {
             return caches.open('entities').then((cache) => {
                 event.request.url = event.request.url.replace('old', 'new');
-                console.log(event.request);
                 return cache.match('/data/getentities/new').then((response) => {
                     return response || fetch(event.request).then(function (response) {
                         cache.put('/data/getentities/new', response.clone());
@@ -28,7 +25,8 @@ workbox.routing.registerRoute(
                     })
                 })
             })
-    })
+    }
+)
 
 workbox.routing.registerRoute(
     ({request}) => new URL(request.url).pathname === '/data/getentities/new',
