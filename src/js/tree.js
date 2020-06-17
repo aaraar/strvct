@@ -173,9 +173,9 @@ function drawD3Tree(param) {
           .insert("rect", ".treenodes")
           .attr("class", "selectedBox")
           .attr("width", "110%")
-          .attr("height", "2em")
+          .attr("height", "1.875em")
           .attr("x", "-0.5em")
-          .attr("y", d.x - 8)
+          .attr("y", d.x - 6)
           .style("fill", "rgba(0, 0, 0, 0.04)");
       })
       .on("mouseout", function(d) {
@@ -231,9 +231,9 @@ function drawD3Tree(param) {
       .insert("rect", ".treenodes")
       .attr("class", "clickBox")
       .attr("width", "calc(100% + 1em)")
-      .attr("height", "2em")
+      .attr("height", "1.875em")
       .attr("x", "-0.5em")
-      .attr("y", d.x - 8)
+      .attr("y", d.x - 6)
       .style("fill", "rgba(0, 0, 0, 0.08)");
   }
 }
