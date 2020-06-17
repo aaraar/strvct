@@ -55,6 +55,10 @@ main.index {
     fill: $color-primary;
   }
 
+  .forcegraph .nodes circle {
+    cursor: grab;
+  }
+
   form {
     height: initial;
     button {
