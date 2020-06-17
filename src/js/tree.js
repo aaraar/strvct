@@ -172,7 +172,7 @@ function drawD3Tree(param) {
         d3.select(".tree")
           .insert("rect", ".treenodes")
           .attr("class", "selectedBox")
-          .attr("width", "calc(100% + 1em)")
+          .attr("width", "110%")
           .attr("height", "2em")
           .attr("x", "-0.5em")
           .attr("y", d.x - 8)
@@ -223,6 +223,18 @@ function drawD3Tree(param) {
     }
     d3.select(this).remove();
     update(d);
+
+    if (document.getElementsByClassName("clickBox")) {
+      d3.selectAll(".clickBox").remove();
+    }
+    d3.select(".tree")
+      .insert("rect", ".treenodes")
+      .attr("class", "clickBox")
+      .attr("width", "calc(100% + 1em)")
+      .attr("height", "2em")
+      .attr("x", "-0.5em")
+      .attr("y", d.x - 8)
+      .style("fill", "rgba(0, 0, 0, 0.08)");
   }
 }
 
@@ -234,7 +246,6 @@ function output(data) {
 
     const visualisation = document.getElementsByClassName("visualisation")[0];
     visualisation.setAttribute("data-attribute", JSON.stringify(data));
-
     const checkedBox = document.querySelectorAll("input[name=graph]:checked")[0]
       .id;
 
