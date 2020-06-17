@@ -7,7 +7,7 @@ const upload = multer();
 const request = require('request');
 
 /* GET users listing. */
-router.get('/getentities', function (req, res, next) {
+router.get('/getentities/:var(old|new)?', function (req, res, next) {
     request.get('http://dev.verinote.net:4000/app/getentities', (err, response, body) => {
         res.json(JSON.parse(body));
     })

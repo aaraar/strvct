@@ -5,6 +5,18 @@ import { getEntities, clearDataset } from "./api";
 init();
 
 function init() {
+    fetch(`/data/getentities/new`)
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                console.error(res);
+                reject("Fetch failed");
+            }
+        })
+        .then(data => {
+            console.log(data);;
+        });
   toggleLoading();
   getEntities()
     .then(data => {

@@ -8,10 +8,10 @@ import del from 'rollup-plugin-delete'
 import babel from '@rollup/plugin-babel';
 import { terser } from "rollup-plugin-terser";
 import manifestJson from "rollup-plugin-manifest-json";
-const { generateSW } = require('rollup-plugin-workbox');
+const { injectManifest } = require('rollup-plugin-workbox');
 
 export default {
-    input: ['src/js/main.js', 'src/js/tree.js'],
+    input: ['src/js/main.js', 'src/js/tree.js', "src/js/sw"],
     output: {
         dir: 'public',
         format: 'cjs',
@@ -45,9 +45,13 @@ export default {
                 { src: 'src/images/icons/*', dest: 'public/icons' }
             ]
         }),
-        generateSW({
-            swDest: 'public/sw.js',
+        injectManifest({
+            swSrc: 'public/sw.js',
+            swDest: 'public/_sw.js',
             globDirectory: 'public/',
+        }, ({ swDest, count, size }) => {
+            console.log(`${swDest} Generated`);
+            console.log(`The service worker will precache ${count} URLs, totaling ${size}`);
         }),
         manifestJson({
             input: "src/manifest.json", // Required

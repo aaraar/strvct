@@ -3,53 +3,48 @@ export function getEntities() {
         fetch('/data/lastmod')
             .then(data => data.json())
             .then(data => {
-        if (localStorage.getItem('lastMod')) {
-            const locLastMod = localStorage.getItem('lastMod');
+                if (localStorage.getItem('lastMod') && localStorage.getItem('lastMod') === data.lastModified) {
+                    const locLastMod = localStorage.getItem('lastMod');
                     if (data.lastModified === locLastMod) {
-                        resolve(JSON.parse(localStorage.getItem('dataset')))
-                    } else {
-                        getRemoteEntities()
-                            .then(dataset => {
-                                localStorage.setItem('lastMod', data.lastModified)
-                                localStorage.setItem('dataset', JSON.stringify(dataset))
-                                resolve(dataset);
+                        getRemoteEntities('old')
+                            .then(entities => {
+                                resolve(entities)
                             })
                             .catch(err => {
-                                console.error(err);
+                                reject(err);
+                            })
+                    } else {
+                        getRemoteEntities('new')
+                            .then(entities => {
+                                localStorage.setItem('lastMod', data.lastModified)
+                                resolve(entities);
+                            })
+                            .catch(err => {
+                                reject(err);
                             })
                     }
+                }
 
-        } else {
-
-            getRemoteEntities()
-                .then(dataset => {
-                    localStorage.setItem('lastMod', data.lastModified)
-                    localStorage.setItem('dataset', JSON.stringify(dataset))
-                    resolve(dataset);
-                })
-                .catch(err => {
-                    console.error(err);
-                })
-        }
-
-        function getRemoteEntities() {
-            return new Promise((resolve, reject) => {
-                fetch("/data/getentities")
-                    .then(res => {
-                        if (res.ok) {
-                            return res.json();
-                        } else {
-                            console.error(res.error());
-                            reject("Fetch failed");
-                        }
+                function getRemoteEntities(suffix) {
+                    return new Promise((resolve, reject) => {
+                        fetch(`/data/getentities/${suffix}`)
+                            .then(res => {
+                                if (res.ok) {
+                                    return res.json();
+                                } else {
+                                    console.error(res.error());
+                                    reject("Fetch failed");
+                                }
+                            })
+                            .then(data => {
+                                resolve(data);
+                            });
                     })
-                    .then(data => {
-                        resolve(data);
-                    });
+                }
             })
-
-        }
-    });
+            .catch(err => {
+                reject(err)
+            })
     })
 }
 
