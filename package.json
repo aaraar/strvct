@@ -60,6 +60,7 @@
     "rollup-plugin-postcss": "^3.1.2",
     "rollup-plugin-scss": "^2.5.0",
     "rollup-plugin-terser": "^6.1.0",
-    "rollup-plugin-workbox": "^5.0.1"
+    "rollup-plugin-workbox": "^5.0.1",
+    "workbox-cli": "^5.1.3"
   }
 }

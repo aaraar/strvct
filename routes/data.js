@@ -7,7 +7,7 @@ const upload = multer();
 const request = require('request');
 
 /* GET users listing. */
-router.get('/getentities', function (req, res, next) {
+router.get('/getentities/:var(old|new)?', function (req, res, next) {
     request.get('http://dev.verinote.net:4000/app/getentities', (err, response, body) => {
         res.json(JSON.parse(body));
     })
@@ -67,6 +67,13 @@ router.get('/lastmod', (req, res) => {
     dataset.findOne(
         { doc: 'info' }).then( data => {
             res.json(data);
+    })
+})
+
+router.post('/addentity', (req, res) => {
+    request.post({
+        url: 'http://dev.verinote.net:4000/app/uploadvocabulary',
+        json: req.body
     })
 })
 
