@@ -99,7 +99,25 @@ export function drawD3Tree(param) {
       .append("g")
       .attr("class", "node")
       .attr("transform", () => "translate(" + source.y0 + "," + source.x0 + ")")
+      .on("mouseover", function(d) {
+        d3.select(this.children[3]).classed("selected", true);
+        d3.select(this.children[0]).style("fill", "rgba(0, 0, 0, 0.04)");
+      })
+      .on("mouseout", function(d) {
+        d3.select(this.children[3]).classed("selected", false);
+        d3.select(this.children[0]).style("fill", "transparent");
+      })
       .on("click", click);
+
+    nodeEnter
+      .append("rect")
+      .attr("class", "nodeBox")
+      .attr("x", "-10%")
+      .attr("y", "-1em")
+      .style("fill", "transparent")
+      .attr("width", "120%")
+      .attr("height", "1.875em");
+
     // adding arrows
     nodeEnter
       .append("text")
@@ -132,22 +150,7 @@ export function drawD3Tree(param) {
               ? `[${d.data._children.length}]`
               : ""
           }`
-      )
-      .on("mouseover", function(d) {
-        d3.select(this).classed("selected", true);
-        d3.select(".tree")
-          .insert("rect", ".treenodes")
-          .attr("class", "selectedBox")
-          .attr("width", "110%")
-          .attr("height", "1.875em")
-          .attr("x", "-0.5em")
-          .attr("y", d.x - 6)
-          .style("fill", "rgba(0, 0, 0, 0.04)");
-      })
-      .on("mouseout", function(d) {
-        d3.selectAll(".selected").classed("selected", false);
-        d3.selectAll(".selectedBox").remove();
-      });
+      );
 
     // Transition nodes to their new position.
     nodeEnter
@@ -196,9 +199,9 @@ export function drawD3Tree(param) {
     d3.select(".tree")
       .insert("rect", ".treenodes")
       .attr("class", "clickBox")
-      .attr("width", "calc(100% + 1em)")
+      .attr("width", "120%)")
       .attr("height", "1.875em")
-      .attr("x", "-0.5em")
+      .attr("x", "-10%")
       .attr("y", d.x - 6)
       .style("fill", "rgba(0, 0, 0, 0.08)");
   }
