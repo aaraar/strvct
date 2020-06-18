@@ -199,7 +199,7 @@ export function drawD3Tree(param) {
     d3.select(".tree")
       .insert("rect", ".treenodes")
       .attr("class", "clickBox")
-      .attr("width", "120%)")
+      .attr("width", "120%")
       .attr("height", "1.875em")
       .attr("x", "-10%")
       .attr("y", d.x - 6)
