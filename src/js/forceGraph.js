@@ -176,7 +176,7 @@ export function createForceGraph(data) {
         })
         .style("fill", "#333")
         .style("font-family", "Arial")
-        .style("font-size", 32)
+        .style("font-size", "1.5em")
         .style("pointer-events", "none"); // to prevent mouseover/drag capture
 
       node.on("mouseover", focus).on("mouseout", unfocus);
