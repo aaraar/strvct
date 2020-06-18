@@ -46,8 +46,8 @@ export default {
             ]
         }),
         injectManifest({
-            swSrc: 'public/sw.js',
-            swDest: 'public/_sw.js',
+            swSrc: 'src/js/sw.js',
+            swDest: 'public/sw.js',
             globDirectory: 'public/',
         }, ({ swDest, count, size }) => {
             console.log(`${swDest} Generated`);
