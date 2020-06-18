@@ -55,6 +55,10 @@ main.index {
     fill: $color-primary;
   }
 
+  .tree rect {
+    cursor: pointer;
+  }
+
   .forcegraph .nodes circle {
     cursor: grab;
   }
@@ -165,5 +169,27 @@ main.index {
   .graphButtons input {
     display: none;
     visibility: hidden;
+  }
+
+  #dataCreator {
+    width: calc(28vw - 1em);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #eeeeee;
+    padding: 1vw;
+    margin: 1em;
+  }
+
+  #dataCreator input[type="text"] {
+    padding: 0.5em;
+    margin: 1em;
+  }
+
+  #dataCreator input[type="submit"] {
+    width: 50%;
+    margin: 0 auto;
   }
 }
