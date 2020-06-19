@@ -55,12 +55,18 @@ main.index {
     fill: $color-primary;
   }
 
-  .svgButton {
+  .svgEditButton {
+    cursor: pointer;
+    fill: grey;
+  }
+
+  .svgAddButton {
     cursor: pointer;
     fill: black;
   }
 
-  .svgButton:hover {
+  .svgEditButton:hover,
+  .svgAddButton:hover {
     fill: blue;
   }
 
