@@ -29,7 +29,7 @@ main.index {
 
   .container {
     display: flex;
-    height: calc(100vh -3.55em);
+    height: calc(100vh - 3.55em);
     position: absolute;
     top: 3.55em;
   }
@@ -80,14 +80,15 @@ main.index {
       color: #c13434;
       background-color: rgba(0, 0, 0, 0);
       border: none;
-      transition: 0.5s;
+      transition: ease-out 0.3s;
       max-height: 100px;
       font-size: 0.5em;
     }
   }
 
   .clear-store button:hover {
-    color: white;
+    color: black;
+    background-color: limegreen;
   }
 
   .node {
@@ -169,7 +170,7 @@ main.index {
   }
 
   .graphButtons input:checked + label::before {
-    transition: all 0.5s ease-out;
+    transition: all 0.3s ease-out;
     opacity: 0;
     width: 10em;
     height: 10em;
@@ -202,5 +203,106 @@ main.index {
   #dataCreator input[type="submit"] {
     width: 50%;
     margin: 0 auto;
+  }
+
+  #options {
+    background: none;
+    border: none;
+    color: white;
+    transition: ease-out 0.3s;
+    &:hover {
+      color: limegreen;
+    }
+  }
+
+  .options-hidden{
+    display: none;
+  }
+
+  .options{
+    transition: ease-out 0.3s;
+    min-width: 20vw;
+    width: 70%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    text-align: left;
+    position: absolute;
+    top: 20%;
+    margin: auto;
+    z-index: 5;
+    color: black;
+    border-radius: 10px;
+    padding: 1em;
+    background-color: whitesmoke;
+    box-shadow: $box-shadow;
+    font-weight: normal;
+    letter-spacing: 0;
+  }
+
+  .options h3{
+    font-size: 1.2em;
+    padding-bottom: 0.8em;
+
+  }
+
+
+  .options form{
+    display: block;
+    width: 100%;
+    font-size: 0.8em;
+    padding-bottom: 0.8em;
+  }
+
+  .form-group{
+    width: 90%;
+  }
+
+  .form-group input{
+    padding-left: 0.5em;
+  }
+
+  .options form label{
+    display: block;
+    width: 100%;
+  }
+
+  .options select{
+    width: 100%;
+    text-transform: capitalize;
+
+  }
+
+  .options button{
+    width: 78%;
+    text-align: center;
+    padding: 0.5em;
+    margin: 0.5em;
+  }
+
+  .confirm{
+    background-color: limegreen;
+    border-radius: 5px;
+    color: black;
+  }
+
+  .confirm:hover{
+    background-color: blue($color-primary);
+  }
+
+  .warning{
+    background-color: red;
+    border-radius: 5px;
+    color: white;
+  }
+
+  .options span{
+    font-size: 0.8em;
+  }
+
+  .options label{
+    margin-bottom: 0.5em;
+    margin-left: 0.5em;
   }
 }

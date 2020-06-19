@@ -3,11 +3,13 @@ import { getEntities, clearDataset } from "./api";
 import { createTreeData, drawD3Tree } from "./tree";
 import { cleanData } from "./dataMap";
 import { output } from "./dataMap";
+import { menuOptions } from "./options";
 
 init();
 
 function init() {
     toggleLoading();
+    menuOptions();
     getEntities()
         .then(data => {
             const cleanJSON = cleanData(data);
