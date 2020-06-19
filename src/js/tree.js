@@ -106,6 +106,7 @@ export function drawD3Tree(param) {
       button.id = "addButton";
       button.value = "Add";
       button.setAttribute("data-name", selectedNode.__data__.data.name);
+      button.setAttribute("data-id", selectedNode.__data__.data.id);
 
       dataCreator.appendChild(header);
       dataCreator.appendChild(input);
@@ -126,7 +127,8 @@ export function drawD3Tree(param) {
         //Send to API
         console.log({
           name: name,
-          parentName: parent
+          parentName: parent,
+          uri: event.target.attributes[4].value
         });
         dataCreator.remove();
       });
@@ -154,13 +156,14 @@ export function drawD3Tree(param) {
       button.id = "editButton";
       button.value = "Edit";
       button.setAttribute("data-name", selectedNode.__data__.data.name);
+      button.setAttribute("data-id", selectedNode.__data__.data.id);
 
       dataCreator.appendChild(header);
       dataCreator.appendChild(input);
       dataCreator.appendChild(button);
       index.appendChild(dataCreator);
 
-      button = document.getElementById("addButton");
+      button = document.getElementById("editButton");
       button.addEventListener("click", function(event) {
         event.preventDefault();
         const name = document.getElementById("childInput").value;
@@ -173,8 +176,8 @@ export function drawD3Tree(param) {
 
         //Send to API
         console.log({
-          name: name,
-          parentName: parent
+          name: parent,
+          uri: event.target.attributes[4].value
         });
         dataCreator.remove();
       });
