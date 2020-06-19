@@ -85,6 +85,104 @@ export function drawD3Tree(param) {
       .attr("height", height)
       .attr("background", "#ffffff");
 
+    function addButtonClick() {
+      if (document.getElementById("dataCreator")) {
+        const dataCreator = document.getElementById("dataCreator");
+        dataCreator.remove();
+      }
+      const selectedNode = d3.select(".selectedNode").node(),
+        index = document.getElementsByClassName("index")[0];
+      let dataCreator = document.createElement("div"),
+        header = document.createElement("h2"),
+        input = document.createElement("input"),
+        button = document.createElement("input");
+
+      dataCreator.id = "dataCreator";
+      header.textContent = "Parent: " + selectedNode.__data__.data.name;
+      input.type = "text";
+      input.id = "childInput";
+      input.placeholder = "Enter name of child here";
+      button.type = "submit";
+      button.id = "addButton";
+      button.value = "Add";
+      button.setAttribute("data-name", selectedNode.__data__.data.name);
+      button.setAttribute("data-id", selectedNode.__data__.data.id);
+
+      dataCreator.appendChild(header);
+      dataCreator.appendChild(input);
+      dataCreator.appendChild(button);
+      index.appendChild(dataCreator);
+
+      button = document.getElementById("addButton");
+      button.addEventListener("click", function(event) {
+        event.preventDefault();
+        const name = document.getElementById("childInput").value;
+        let parent;
+        if (event.target.attributes[3].value == "Structured Vocabulary") {
+          parent = "";
+        } else {
+          parent = event.target.attributes[3].value;
+        }
+
+        //Send to API
+        console.log({
+          name: name,
+          parentName: parent,
+          uri: event.target.attributes[4].value
+        });
+        dataCreator.remove();
+      });
+    }
+
+    function editButtonClick() {
+      if (document.getElementById("dataCreator")) {
+        const dataCreator = document.getElementById("dataCreator");
+        dataCreator.remove();
+      }
+      const selectedNode = d3.select(".selectedNode").node(),
+        index = document.getElementsByClassName("index")[0];
+      let dataCreator = document.createElement("div"),
+        header = document.createElement("h2"),
+        input = document.createElement("input"),
+        button = document.createElement("input");
+
+      dataCreator.id = "dataCreator";
+      header.textContent = "Editing: " + selectedNode.__data__.data.name;
+      input.type = "text";
+      input.value = selectedNode.__data__.data.name;
+      input.id = "childInput";
+      input.placeholder = "Enter new name here";
+      button.type = "submit";
+      button.id = "editButton";
+      button.value = "Edit";
+      button.setAttribute("data-name", selectedNode.__data__.data.name);
+      button.setAttribute("data-id", selectedNode.__data__.data.id);
+
+      dataCreator.appendChild(header);
+      dataCreator.appendChild(input);
+      dataCreator.appendChild(button);
+      index.appendChild(dataCreator);
+
+      button = document.getElementById("editButton");
+      button.addEventListener("click", function(event) {
+        event.preventDefault();
+        const name = document.getElementById("childInput").value;
+        let parent;
+        if (event.target.attributes[3].value == "Structured Vocabulary") {
+          parent = "";
+        } else {
+          parent = event.target.attributes[3].value;
+        }
+
+        //Send to API
+        console.log({
+          name: parent,
+          uri: event.target.attributes[4].value
+        });
+        dataCreator.remove();
+      });
+    }
+
     let index = -1;
     root.eachBefore(n => {
       n.x = ++index * barHeight;
@@ -99,7 +197,54 @@ export function drawD3Tree(param) {
       .append("g")
       .attr("class", "node")
       .attr("transform", () => "translate(" + source.y0 + "," + source.x0 + ")")
+      .on("mouseover", function(d) {
+        mouse(d, this);
+      })
       .on("click", click);
+
+    function mouse(d, node) {
+      d3.select(".svgEditButton").remove();
+      d3.select(".svgAddButton").remove();
+      let selectedNode = d3.select(".selectedNode").node();
+      d3.select(".selectedNode rect").style("fill", "transparent");
+      d3.select(selectedNode).classed("selectedNode", false);
+      d3.select(node).classed("selectedNode", true);
+      selectedNode = d3.select(".selectedNode").node();
+      d3.select(".selected").classed("selected", false);
+      d3.select(node.children[3]).classed("selected", true);
+      d3.select(node.children[0]).style("fill", "rgba(0, 0, 0, 0.04)");
+      const textBox = selectedNode.children[3].getBBox();
+      d3.select(".tree")
+        .append("rect")
+        .attr("class", "svgAddButton")
+        .attr("width", "1.875em")
+        .attr("height", "1.875em")
+        .attr("x", "-10%")
+        .attr("y", "-10%")
+        .attr("x", textBox.width + selectedNode.__data__.y + 48)
+        .attr("y", selectedNode.__data__.x - 6)
+        .on("click", addButtonClick);
+      d3.select(".tree")
+        .append("rect")
+        .attr("class", "svgEditButton")
+        .attr("width", "1.875em")
+        .attr("height", "1.875em")
+        .attr("x", "-10%")
+        .attr("y", "-10%")
+        .attr("x", textBox.width + selectedNode.__data__.y + 90)
+        .attr("y", selectedNode.__data__.x - 6)
+        .on("click", editButtonClick);
+    }
+
+    nodeEnter
+      .append("rect")
+      .attr("class", "nodeBox")
+      .attr("x", "-10%")
+      .attr("y", "-1em")
+      .style("fill", "transparent")
+      .attr("width", "120%")
+      .attr("height", "1.875em");
+
     // adding arrows
     nodeEnter
       .append("text")
@@ -132,22 +277,7 @@ export function drawD3Tree(param) {
               ? `[${d.data._children.length}]`
               : ""
           }`
-      )
-      .on("mouseover", function(d) {
-        d3.select(this).classed("selected", true);
-        d3.select(".tree")
-          .insert("rect", ".treenodes")
-          .attr("class", "selectedBox")
-          .attr("width", "110%")
-          .attr("height", "1.875em")
-          .attr("x", "-0.5em")
-          .attr("y", d.x - 6)
-          .style("fill", "rgba(0, 0, 0, 0.04)");
-      })
-      .on("mouseout", function(d) {
-        d3.selectAll(".selected").classed("selected", false);
-        d3.selectAll(".selectedBox").remove();
-      });
+      );
 
     // Transition nodes to their new position.
     nodeEnter
@@ -196,9 +326,9 @@ export function drawD3Tree(param) {
     d3.select(".tree")
       .insert("rect", ".treenodes")
       .attr("class", "clickBox")
-      .attr("width", "calc(100% + 1em)")
+      .attr("width", "120%")
       .attr("height", "1.875em")
-      .attr("x", "-0.5em")
+      .attr("x", "-10%")
       .attr("y", d.x - 6)
       .style("fill", "rgba(0, 0, 0, 0.08)");
   }

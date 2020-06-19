@@ -189,3 +189,10 @@ footer {
 svg {
     overflow: visible;
 }
+
+#visualisationMessage {
+    margin-top: 50vh;
+    color: #aaa;
+    font-style: italic;
+    user-select: none;
+}
