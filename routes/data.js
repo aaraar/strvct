@@ -14,8 +14,30 @@ router.get('/getentities/:var(old|new)?', function (req, res, next) {
 });
 
 router.post('/clear', function (req, res, next) {
-    request.post('http://dev.verinote.net:4000/app/clearstore', (err, response, body) => {
-        res.json(response)
+    const mongo = database.get();
+    const dataset = mongo.db('strvct').collection('dataset');
+    request.post('http://dev.verinote.net:4000/app/clearstore', (apiErr, response, body) => {
+        if (apiErr) {
+            console.error(apiErr);
+            res.render('error', {title: 'STRVCT', error: apiErr});
+        } else {
+            dataset.updateOne(
+                {doc: 'info'},
+                {
+                    $set: {
+                        lastModified: moment.tz('Europe/Amsterdam').format()
+                    }
+                },
+                {upsert: true})
+                .then((result, dbErr) => {
+                    if (dbErr) {
+                        res.render('error', {title: 'STRVCT', error: dbErr});
+                    } else {
+                        res.redirect('/');
+                    }
+                });
+
+        }
     })
 })
 
@@ -36,7 +58,7 @@ router.post('/upload', upload.single('dataset'), (req, res) => {
     request.post({
         url: 'http://dev.verinote.net:4000/app/uploadvocabulary',
         formData
-    }, function (apiErr, response, body) {
+    }, (apiErr, response, body) => {
         if (apiErr) {
             console.error(apiErr);
             res.render('error', {title: 'STRVCT', error: apiErr});
@@ -71,9 +93,33 @@ router.get('/lastmod', (req, res) => {
 })
 
 router.post('/addentity', (req, res) => {
+    const mongo = database.get();
+    const dataset = mongo.db('strvct').collection('dataset');
     request.post({
-        url: 'http://dev.verinote.net:4000/app/uploadvocabulary',
+        url: 'http://dev.verinote.net:4000/app/addentity',
         json: req.body
+    }, (apiErr, response, body) => {
+        if (apiErr) {
+            console.error(apiErr);
+            res.render('error', {title: 'STRVCT', error: apiErr});
+        } else {
+            dataset.updateOne (
+                { doc: 'info' },
+                {
+                    $set: {
+                        lastModified: moment.tz('Europe/Amsterdam').format()
+                    }
+                },
+                { upsert: true } )
+                .then ((result, dbErr) => {
+                    if (dbErr) {
+                        res.render('error', {title: 'STRVCT', error: dbErr});
+                    } else {
+                        res.redirect('/visualisation');
+                    }
+                });
+
+        }
     })
 })
 

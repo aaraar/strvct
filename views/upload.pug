@@ -10,10 +10,17 @@ block content
         span CT
     .container
       section.menu.active
-        h2 Welcome
-        p To start visualizing a structured vocabulary, please upload the .ttl file
-        form(class='upload' action='/data/upload' method='POST' enctype='multipart/form-data')
-          input(type='file' accept='.ttl, .nt' id='dataset' name='dataset')
-          button Upload
+        h2 Welcome to STRVCT
+        p Login to start working with your current dataset
+        form(class='login' action='/' method='GET')
+          label Username
+            input(type='text' name='username')
+          label Password
+            input(type='password' name='password')
+        details
+          summary prototype options
+          form(class='upload' action='/data/upload' method='POST' enctype='multipart/form-data')
+            input(type='file' accept='.ttl, .nt' id='dataset' name='dataset' required)
+            button Upload
     footer ©MIT | CMD - HvA | Robert Hoekstra, Daniel van de Velde &amp; Bas de Greeuw
   script(src='/nests.js' defer)

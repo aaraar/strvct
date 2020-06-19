@@ -14,7 +14,13 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/visualisation', (req, res) => {
-    res.render('visualisation', {title: 'STRVCT'})
+    request.get('http://dev.verinote.net:4000/app/isempty', (err, response, body) => {
+        if (err) res.render('error', {title: 'STRVCT', error: err});
+        else {
+            if (eval(body)) res.redirect('/');
+            else res.render('visualisation', {title: 'STRVCT'})
+        }
+    });
 })
 
 module.exports = router;
