@@ -11,7 +11,7 @@ import manifestJson from "rollup-plugin-manifest-json";
 const { generateSW } = require('rollup-plugin-workbox');
 
 export default {
-    input: ['src/js/main.js', 'src/js/tree.js'],
+    input: ['src/js/main.js', 'src/js/tree.js', 'src/js/options.js'],
     output: {
         dir: 'public',
         format: 'cjs',
