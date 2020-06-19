@@ -1,7 +1,7 @@
 extends layouts/main-layout
 
 block content
-    main.index
+    main.index#application
         header
             h1
                 span STR
@@ -26,13 +26,13 @@ block content
                             label(for='no-blind') none
                 section
                     h3 Graphs & Text
-                    form.graphs
+                    form.graphs#graphs
                         div.form-group
                             label(for="fontsize") Fontsize
                             select#fontsize(name='fontsize')
                                 option(value="12") small
-                                option(value="16") normal
-                                option(value="20") big
+                                option(value="14") normal
+                                option(value="16") big
                         div.form-group
                             label(for="levels") Number of sublevels
                             select#levels(name='levels')
