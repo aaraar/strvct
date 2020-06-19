@@ -54,9 +54,9 @@ export function cleanData(data) {
     let cleanedData = data.map(item => {
         return {
             name: item.name ? item.name : false,
-            id: item.uri ? sanitizeString(item.uri) : false,
+            id: item.uri ? item.uri : false,
             parent: item.parentURI
-                ? sanitizeString(item.parentURI)
+                ? item.parentURI
                 : "Structured Vocabulary",
             note: item.note ? item.note : false,
             keywords: item.keywords ? item.keywords : false

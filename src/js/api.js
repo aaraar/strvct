@@ -64,6 +64,29 @@ function clearEntities() {
     })
 }
 
+export function addEntitiy(json) {
+    return new Promise((resolve, reject) => {
+        fetch("/data/addentity", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(json)
+        })
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    console.error(res.error());
+                    reject(res.error());
+                }
+            })
+            .then(data => {
+                resolve(data);
+            });
+    })
+}
+
 export function clearDataset() {
     toggleLoading();
     clearEntities().then(() => {

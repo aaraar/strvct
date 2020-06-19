@@ -95,9 +95,10 @@ router.get('/lastmod', (req, res) => {
 router.post('/addentity', (req, res) => {
     const mongo = database.get();
     const dataset = mongo.db('strvct').collection('dataset');
+    console.log(req.body);
     request.post({
         url: 'http://dev.verinote.net:4000/app/addentity',
-        json: req.body
+        json: JSON.stringify(req.body)
     }, (apiErr, response, body) => {
         if (apiErr) {
             console.error(apiErr);
