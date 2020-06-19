@@ -55,8 +55,13 @@ main.index {
     fill: $color-primary;
   }
 
-  .tree rect {
+  .svgButton {
     cursor: pointer;
+    fill: black;
+  }
+
+  .svgButton:hover {
+    fill: blue;
   }
 
   .forcegraph .nodes circle {

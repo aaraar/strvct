@@ -117,10 +117,10 @@ export function drawD3Tree(param) {
         event.preventDefault();
         const name = document.getElementById("childInput").value;
         let parent;
-        if (event.target.attributes[3] == "Structured Vocabulary") {
-          parent = false;
+        if (event.target.attributes[3].value == "Structured Vocabulary") {
+          parent = "";
         } else {
-          parent = event.target.attributes[3];
+          parent = event.target.attributes[3].value;
         }
 
         //Send to API
@@ -165,7 +165,6 @@ export function drawD3Tree(param) {
       d3.select(".tree")
         .append("rect")
         .attr("class", "svgButton")
-        .style("fill", "red")
         .attr("width", "1.875em")
         .attr("height", "1.875em")
         .attr("x", "-10%")
