@@ -4,11 +4,33 @@ import {createForceGraph} from "./forceGraph";
 import {createSunburst} from "./sunburst";
 
 export function output(data) {
-    if (data.children) {
-        d3.select(".visualisation")
-            .select("svg")
-            .remove();
+    const message = document.getElementById("visualisationMessage");
+    message.style.display = "flex";
+    d3.select(".visualisation")
+        .select("svg")
+        .remove();
 
+    if (!data) {
+        message.textContent = "There is no data to display. Pick an item on the left"
+        const visualisation = document.getElementsByClassName("visualisation")[0];
+        visualisation.setAttribute("data-attribute", "");
+        return
+    }
+    if (!data.children) {
+        message.textContent = "Item has no children to display in a visualisation"
+        const visualisation = document.getElementsByClassName("visualisation")[0];
+        visualisation.setAttribute("data-attribute", "");
+        return
+    }
+    if (data.children.length > 100) {
+        message.textContent = "Data has over 100 children. Please pick a smaller item"
+        const visualisation = document.getElementsByClassName("visualisation")[0];
+        visualisation.setAttribute("data-attribute", "");
+        return
+    }
+    if (data.children) {
+        message.textContent = "";
+        message.style.display = "none";
         const visualisation = document.getElementsByClassName("visualisation")[0];
         visualisation.setAttribute("data-attribute", JSON.stringify(data));
         const checkedBox = document.querySelectorAll("input[name=graph]:checked")[0]
