@@ -1,0 +1,62 @@
+extends layouts/main-layout
+
+block content
+    main.index#application
+        header
+            h1
+                span STR
+                span V
+                span CT
+            button#options Options
+            section#optionsMenu.options-hidden
+                section
+                    h3 Accessibility
+                    form.accessibility#accessibility
+                        div.form-group
+                            input#red-green(type='radio' name='colorblindness' value='1')
+                            label(for='red-green') Red - Green Blindness
+                        div.form-group
+                            input#blue-yellow(type='radio' name='colorblindness' value='2')
+                            label(for='blue-yellow') Blue - Yellow Blindness
+                        div.form-group
+                            input#total(type='radio' name='colorblindness' value='3')
+                            label(for='total') Total Color Blindness
+                        div.form-group
+                            input#no-blind(type='radio' name='colorblindness' value='0' checked)
+                            label(for='no-blind') none
+                section
+                    h3 Graphs & Text
+                    form.graphs#graphs
+                        div.form-group
+                            label(for="fontsize") Fontsize
+                            select#fontsize(name='fontsize')
+                                option(value="12") small
+                                option(value="14") normal
+                                option(value="16") big
+                        div.form-group
+                            label(for="levels") Number of sublevels
+                            select#levels(name='levels')
+                                option(value='1') One
+                                option(value='2') Two
+                                option(value='3') Three
+                section.savesection
+                    h3 Confirm
+                    form.save
+                        button.confirm#confirmation Save Changes
+                section
+                    h3 Change Vocabulary
+                    form.clear-store(action='data/clear' method='POST')
+                        span When beginning a new session. Current Vocabulary will be removed from the application. This action is irreversible!
+                        button.warning New Session
+        .container
+            .tree--container
+            .visualisation
+              span#visualisationMessage Select an item on the left and it will be visualised here
+            form.graphButtons
+                input#sunburst(type='radio' name='graph' checked)
+                label(for='sunburst') Sunburst
+                input#packedcircle(type='radio' name='graph')
+                label(for='packedcircle') Packed circle
+                input#forcegraph(type='radio' name='graph')
+                label(for='forcegraph') Force graph
+    script(src='/main.js' defer)

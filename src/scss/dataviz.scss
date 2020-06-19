@@ -3,12 +3,18 @@ main.index {
   background: none;
   display: block;
   header {
-    padding: 0;
-    height: 10vh;
+    padding: 0.5em 1em;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     background-color: $color-primary;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2),
+      0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
   }
 
   .tree,
@@ -23,22 +29,49 @@ main.index {
 
   .container {
     display: flex;
-    height: 90vh;
+    height: calc(100vh - 3.55em);
+    position: absolute;
+    top: 3.55em;
   }
 
   .tree {
-    background-color: white;
     max-height: none;
     position: absolute;
     top: 0;
     left: 0;
     display: block;
+    background: rgba(0, 0, 0, 0.03);
+    padding: 0.5em;
     &--container {
       background-color: white;
       position: relative;
       max-width: 30vw;
       overflow: scroll;
+      margin: 1em;
     }
+  }
+
+  .tree .selected {
+    fill: $color-primary;
+  }
+
+  .svgEditButton {
+    cursor: pointer;
+    fill: grey;
+  }
+
+  .svgAddButton {
+    cursor: pointer;
+    fill: black;
+  }
+
+  .svgEditButton:hover,
+  .svgAddButton:hover {
+    fill: blue;
+  }
+
+  .forcegraph .nodes circle {
+    cursor: grab;
   }
 
   form {
@@ -47,14 +80,15 @@ main.index {
       color: #c13434;
       background-color: rgba(0, 0, 0, 0);
       border: none;
-      transition: 0.5s;
+      transition: ease-out 0.3s;
       max-height: 100px;
+      font-size: 0.5em;
     }
   }
 
   .clear-store button:hover {
-    color: white;
-    border: none;
+    color: black;
+    background-color: limegreen;
   }
 
   .node {
@@ -87,29 +121,188 @@ main.index {
 
   .graphButtons {
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: 1em;
+    bottom: 1em;
     flex-direction: row;
   }
 
   .graphButtons input + label {
-    border: 1px solid black;
-    padding: 0.25em;
-    background: transparent;
-    transition: background 0.25s;
-    margin: 0 0.5em;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    background: white;
+    text-align: center;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+  .graphButtons input + label:first-of-type {
+    border-radius: 0.5em 0 0 0.5em;
+    border-right: none;
+  }
+
+  .graphButtons input + label:nth-of-type(3) {
+    border-radius: 0 0.5em 0.5em 0;
+    border-left: none;
+  }
+
+  .graphButtons input + label::before {
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.6);
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
   }
 
   .graphButtons input + label:hover {
-    background: #0078d7;
+    background: #f5f5f5;
+  }
+  .graphButtons input:checked + label:hover {
+    background: #d6d6d6;
   }
 
   .graphButtons input:checked + label {
-    background-color: #f7630c;
+    background-color: #e0e0e0;
+  }
+
+  .graphButtons input:checked + label::before {
+    transition: all 0.3s ease-out;
+    opacity: 0;
+    width: 10em;
+    height: 10em;
+    margin-top: -5em;
+    margin-left: -5em;
   }
 
   .graphButtons input {
     display: none;
     visibility: hidden;
+  }
+
+  #dataCreator {
+    width: calc(28vw - 1em);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #eeeeee;
+    padding: 1vw;
+    margin: 1em;
+  }
+
+  #dataCreator input[type="text"] {
+    padding: 0.5em;
+    margin: 1em;
+  }
+
+  #dataCreator input[type="submit"] {
+    width: 50%;
+    margin: 0 auto;
+  }
+
+  #options {
+    background: none;
+    border: none;
+    color: white;
+    transition: ease-out 0.3s;
+    &:hover {
+      color: limegreen;
+    }
+  }
+
+  .options-hidden{
+    display: none;
+  }
+
+  .options{
+    transition: ease-out 0.3s;
+    min-width: 20vw;
+    width: 70%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    text-align: left;
+    position: absolute;
+    top: 20%;
+    margin: auto;
+    z-index: 5;
+    color: black;
+    border-radius: 10px;
+    padding: 1em;
+    background-color: whitesmoke;
+    box-shadow: $box-shadow;
+    font-weight: normal;
+    letter-spacing: 0;
+  }
+
+  .options h3{
+    font-size: 1.2em;
+    padding-bottom: 0.8em;
+
+  }
+
+
+  .options form{
+    display: block;
+    width: 100%;
+    font-size: 0.8em;
+    padding-bottom: 0.8em;
+  }
+
+  .form-group{
+    width: 90%;
+  }
+
+  .form-group input{
+    padding-left: 0.5em;
+  }
+
+  .options form label{
+    display: block;
+    width: 100%;
+  }
+
+  .options select{
+    width: 100%;
+    text-transform: capitalize;
+
+  }
+
+  .options button{
+    width: 78%;
+    text-align: center;
+    padding: 0.5em;
+    margin: 0.5em;
+  }
+
+  .confirm{
+    background-color: limegreen;
+    border-radius: 5px;
+    color: black;
+  }
+
+  .confirm:hover{
+    background-color: blue($color-primary);
+  }
+
+  .warning{
+    background-color: red;
+    border-radius: 5px;
+    color: white;
+  }
+
+  .options span{
+    font-size: 0.8em;
+  }
+
+  .options label{
+    margin-bottom: 0.5em;
+    margin-left: 0.5em;
   }
 }

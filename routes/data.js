@@ -7,15 +7,37 @@ const upload = multer();
 const request = require('request');
 
 /* GET users listing. */
-router.get('/getentities', function (req, res, next) {
+router.get('/getentities/:var(old|new)?', function (req, res, next) {
     request.get('http://dev.verinote.net:4000/app/getentities', (err, response, body) => {
         res.json(JSON.parse(body));
     })
 });
 
 router.post('/clear', function (req, res, next) {
-    request.post('http://dev.verinote.net:4000/app/clearstore', (err, response, body) => {
-        res.json(response)
+    const mongo = database.get();
+    const dataset = mongo.db('strvct').collection('dataset');
+    request.post('http://dev.verinote.net:4000/app/clearstore', (apiErr, response, body) => {
+        if (apiErr) {
+            console.error(apiErr);
+            res.render('error', {title: 'STRVCT', error: apiErr});
+        } else {
+            dataset.updateOne(
+                {doc: 'info'},
+                {
+                    $set: {
+                        lastModified: moment.tz('Europe/Amsterdam').format()
+                    }
+                },
+                {upsert: true})
+                .then((result, dbErr) => {
+                    if (dbErr) {
+                        res.render('error', {title: 'STRVCT', error: dbErr});
+                    } else {
+                        res.json({data: 'okay'});
+                    }
+                });
+
+        }
     })
 })
 
@@ -36,7 +58,7 @@ router.post('/upload', upload.single('dataset'), (req, res) => {
     request.post({
         url: 'http://dev.verinote.net:4000/app/uploadvocabulary',
         formData
-    }, function (apiErr, response, body) {
+    }, (apiErr, response, body) => {
         if (apiErr) {
             console.error(apiErr);
             res.render('error', {title: 'STRVCT', error: apiErr});
@@ -67,6 +89,38 @@ router.get('/lastmod', (req, res) => {
     dataset.findOne(
         { doc: 'info' }).then( data => {
             res.json(data);
+    })
+})
+
+router.post('/addentity', (req, res) => {
+    const mongo = database.get();
+    const dataset = mongo.db('strvct').collection('dataset');
+    console.log(req.body);
+    request.post({
+        url: 'http://dev.verinote.net:4000/app/addentity',
+        json: JSON.stringify(req.body)
+    }, (apiErr, response, body) => {
+        if (apiErr) {
+            console.error(apiErr);
+            res.render('error', {title: 'STRVCT', error: apiErr});
+        } else {
+            dataset.updateOne (
+                { doc: 'info' },
+                {
+                    $set: {
+                        lastModified: moment.tz('Europe/Amsterdam').format()
+                    }
+                },
+                { upsert: true } )
+                .then ((result, dbErr) => {
+                    if (dbErr) {
+                        res.render('error', {title: 'STRVCT', error: dbErr});
+                    } else {
+                        res.redirect('/visualisation');
+                    }
+                });
+
+        }
     })
 })
 
