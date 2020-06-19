@@ -53,8 +53,8 @@ main.index {
   }
 
   .clear-store button:hover {
-    color: white;
-    border: none;
+    color: black;
+    background-color: limegreen;
   }
 
   .node {
@@ -112,4 +112,105 @@ main.index {
     display: none;
     visibility: hidden;
   }
+
+  .options-hidden{
+    display: none;
+  }
+
+  .options{
+    transition: 0.5s;
+    min-width: 20vw;
+    width: 70%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    text-align: left;
+    position: absolute;
+    top: 20%;
+    margin: auto;
+    z-index: 5;
+    color: black;
+    border: solid black 3px;
+    border-radius: 10px;
+    max-height: 80%;
+    padding: 1em;
+    background-color: whitesmoke;
+    box-shadow: 4px 7px 20px 0px rgba(0,0,0,0.62);
+    font-weight: normal;
+    letter-spacing: 0;
+  }
+
+  .options h3{
+    font-size: 1.2em;
+    padding-bottom: 0.8em;
+    
+  }
+
+
+  .options form{
+    display: block;
+    width: 100%;
+    font-size: 0.8em;
+    padding-bottom: 0.8em;
+  }
+
+  .form-group{
+    width: 90%;
+  }
+
+  .form-group input{
+    padding-left: 0.5em;
+  }
+
+  .options form label{
+    display: block;
+    width: 100%;
+  }
+
+  .options select{
+    width: 100%;
+    text-transform: capitalize;
+
+  }
+
+  .options button{
+    width: 78%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding: 0.5em;
+    margin: 0.5em;
+    margin-left: 0;
+  }
+
+  .confirm{
+    background-color: limegreen;
+    border: solid black 2px;
+    border-radius: 10px;
+    color: black;
+  }
+
+  .confirm:hover{
+    background-color: blue($color-primary);
+  }
+
+  .warning{
+    background-color: red;
+    border: solid black 2px;
+    border-radius: 10px;
+    color: white;
+  }
+
+  .options span{
+    font-size: 0.8em;
+  }
+
+  .options label{
+    margin-bottom: 0.5em;
+    margin-left: 0.5em;
+  }
+
 }
+
+
