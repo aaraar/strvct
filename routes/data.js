@@ -33,7 +33,7 @@ router.post('/clear', function (req, res, next) {
                     if (dbErr) {
                         res.render('error', {title: 'STRVCT', error: dbErr});
                     } else {
-                        res.redirect('/');
+                        res.json({data: 'okay'});
                     }
                 });
 

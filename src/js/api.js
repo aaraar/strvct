@@ -52,7 +52,7 @@ function clearEntities() {
         })
             .then(res => {
                 if (res.ok) {
-                    return res.json();
+                    return res
                 } else {
                     console.error(res.error());
                     reject(res.error());
