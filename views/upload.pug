@@ -13,10 +13,13 @@ block content
         h2 Welcome to STRVCT
         p Login to start working with your current dataset
         form(class='login' action='/' method='GET')
-          label Username
+          label username
             input(type='text' name='username')
-          label Password
+          label password
             input(type='password' name='password')
+        div.register
+          button.login--buton login
+          a(href="#") contact us if you're interested in registering
         details
           summary prototype options
           form(class='upload' action='/data/upload' method='POST' enctype='multipart/form-data')

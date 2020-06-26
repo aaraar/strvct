@@ -213,3 +213,11 @@ svg {
     font-style: italic;
     user-select: none;
 }
+
+.register {
+    display: flex;
+    margin: 1em 0;
+    min-width: 400px;
+    min-height: 2ch;
+    align-items: flex-end;
+}
