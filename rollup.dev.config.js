@@ -39,7 +39,8 @@ export default {
         }),
         copy({
             targets: [
-                { src: 'src/images/icons/*', dest: 'public/icons' }
+                { src: 'src/images/icons/*', dest: 'public/icons' },
+                { src: 'src/images/svg/*', dest: 'public/svg' }
             ]
         }),
         injectManifest({

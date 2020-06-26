@@ -220,7 +220,7 @@ export function drawD3Tree(param) {
             d3.select(node.children[0]).style("fill", "rgba(0, 0, 0, 0.04)");
             const textBox = selectedNode.children[3].getBBox();
             d3.select(".tree")
-                .append("rect")
+                .append("svg:image")
                 .attr("class", "svgAddButton")
                 .attr("width", "1.875em")
                 .attr("height", "1.875em")
@@ -228,9 +228,10 @@ export function drawD3Tree(param) {
                 .attr("y", "-10%")
                 .attr("x", textBox.width + selectedNode.__data__.y + 48)
                 .attr("y", selectedNode.__data__.x - 6)
+                .attr("xlink:href", "svg/add.svg")
                 .on("click", addButtonClick);
             d3.select(".tree")
-                .append("rect")
+                .append("svg:image")
                 .attr("class", "svgEditButton")
                 .attr("width", "1.875em")
                 .attr("height", "1.875em")
@@ -238,6 +239,7 @@ export function drawD3Tree(param) {
                 .attr("y", "-10%")
                 .attr("x", textBox.width + selectedNode.__data__.y + 90)
                 .attr("y", selectedNode.__data__.x - 6)
+                .attr("xlink:href", "svg/edit.svg")
                 .on("click", editButtonClick);
         }
 
