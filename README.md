@@ -1,6 +1,8 @@
 # strvct
 Wallscope - Strvct
 
+<kbd>![Shiny front-end](https://i.imgur.com/UpQK1Qu.png "Shiny front-end")</kbd>
+
 ## How to install
 1. Clone repo
 1. Install packages `yarn`
